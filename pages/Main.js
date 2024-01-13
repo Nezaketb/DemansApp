@@ -1,25 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Text } from 'react-native';
-import axios from 'axios';
+import { useTheme } from '@react-navigation/native';
+import { getSentences } from '../api';
 
 const Main = () => {
+
+  const [text, setText] = useState('');
+  const {colors}=useTheme();
   useEffect(() => {
-    const getSentences = async () => {
-        try {
-          const response = await axios.get('http://192.168.1.9:5023/api/MotivationSentences/getAllSentences');
-          console.log('API Response:', response.data);
-          return response.data;
-        } catch (error) {
-          console.error('API Error:', error);
-          throw error;
+    getSentences()
+      .then(response => {
+        if (response && response.data && response.data.length > 0 && response.data[0].text) {
+          setText(response.data[0].text);
+        } else {
+          setText('API\'den geçerli bir isim alınamadı.');
         }
-      };    
-      getSentences();
-  }, []); 
+      })
+      .catch(error => {
+        setText('API isteği sırasında bir hata oluştu: ' + error.message);
+      });
+  }, []);
 
   return (
-      <Text>Main Sayfası</Text>
+    <Text style={{ color: colors.primary}}>{text}</Text>
   );
 };
-
 export default Main;
