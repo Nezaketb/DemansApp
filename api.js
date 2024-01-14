@@ -1,6 +1,27 @@
 import axios from 'axios';
 
 const apiBaseUrl = 'http://192.168.1.9:5023/api/'; 
+;
+export const LoginUser = async (email, password) => {
+  try {
+    const response = await axios.post(
+      `${apiBaseUrl}Users/Login`,
+      {
+        email: email,
+        password: password,
+      },
+    );
+    const token = response.data.token; 
+    console.log('Token', token);
+
+    console.error('Giriş başarılı:', response.data);
+    return true;
+  } catch (error) {
+    console.error('Giriş başarısız:', error.message);
+    throw error;
+  }
+};
+
 
 export const getSentences = async () => {
   try {

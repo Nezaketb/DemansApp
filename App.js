@@ -13,8 +13,8 @@ function App() {
   return (
     <NavigationContainer theme={config}>
       <Stack.Navigator screenOptions={{headerShown:false}}>
+      <Stack.Screen name="Login" component={Login}/>
       <Stack.Screen name="Main" component={Main}/>
-        <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Register" component={Register}/>
         <Stack.Screen name="MedicinesInformation" component={MedicinesInformation}/>
       </Stack.Navigator>

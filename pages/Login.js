@@ -4,13 +4,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { LoginUser } from '../api';
 
 const Login = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     const { colors } = useTheme();
 
+    const handleLogin = async () => {
+        try {
+          const success = await LoginUser(email, password, navigation);
+          
+          if (success) {
+            navigation.navigate('Main');
+          }
+        } catch (error) {
+          console.error('Login error:', error.message);
+        }
+      };
+      
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -53,6 +68,8 @@ const Login = ({ navigation }) => {
                         <Icon name="envelope" size={20} color="gray" style={{ marginRight: 10 }} />
                         <TextInput
                             placeholder='Email'
+                            value={email}
+                            onChangeText={(text) => setEmail(text)}
                             placeholderTextColor={colors.text}
                             keyboardType='email-address'
                             style={{
@@ -85,6 +102,8 @@ const Login = ({ navigation }) => {
                         <Icon name="lock" size={20} color="gray" style={{ marginRight: 10 }} />
                         <TextInput
                             placeholder='Şifre'
+                            value={password}
+                            onChangeText={(text) => setPassword(text)}
                             placeholderTextColor={colors.text}
                             secureTextEntry={isPasswordShown}
                             style={{
@@ -129,6 +148,7 @@ const Login = ({ navigation }) => {
                 <Button
                   title="Giriş Yap"
                   loading={false}
+                  onPress={handleLogin}
                   buttonStyle={{
                     backgroundColor: colors.primary,
                     borderRadius: 10,
