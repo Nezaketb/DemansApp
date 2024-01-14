@@ -11,8 +11,6 @@ export const LoginUser = async (email, password) => {
         password: password,
       },
     );
-    const token = response.data.token; 
-    console.log('Token', token);
 
     console.error('Giriş başarılı:', response.data);
     return true;
@@ -22,6 +20,26 @@ export const LoginUser = async (email, password) => {
   }
 };
 
+export const RegisterUser = async (email,userName,surname,phone, password) => {
+  try {
+    const response = await axios.post(
+      `${apiBaseUrl}Users/Register`,
+      {
+        email: email,
+        userName:userName,
+        surname:surname,
+        phone:phone,
+        password: password,
+      },
+    );
+
+    console.error('Kayıt başarılı:', response.data);
+    return true;
+  } catch (error) {
+    console.error('Kayıt başarısız:', error.message);
+    throw error;
+  }
+};
 
 export const getSentences = async () => {
   try {

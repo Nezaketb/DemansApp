@@ -4,12 +4,34 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { RegisterUser } from '../api';
 
 const Register = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
     const { colors } = useTheme();
 
+    const handleRegister = async () => {
+        try {
+          const success = await RegisterUser(email, userName, surname, phone, password);
+    
+          if (success) {
+            //Alert.alert('Başarılı', 'Kayıt işlemi başarıyla tamamlandı.');
+            navigation.navigate('Main');
+          } else {
+            //Alert.alert('Hata', 'Kayıt işlemi sırasında bir hata oluştu.');
+          }
+        } catch (error) {
+          //Alert.alert('Hata', 'Kayıt işlemi sırasında bir hata oluştu.');
+          console.error('Register error:', error.message);
+        }
+      };
+    
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -52,6 +74,8 @@ const Register = ({ navigation }) => {
                         <Icon name="user" size={20} color="gray" style={{ marginRight: 10 }} />
                         <TextInput
                             placeholder='İsim'
+                            onChangeText={(text) => setUserName(text)}
+                            value={userName}   
                             placeholderTextColor={colors.text}
                             keyboardType='default'
                             style={{
@@ -84,6 +108,8 @@ const Register = ({ navigation }) => {
                         <Icon name="users" size={20} color="gray" style={{ marginRight: 10 }} />
                         <TextInput
                             placeholder='Soyad'
+                            onChangeText={(text) => setSurname(text)}
+                            value={surname}
                             placeholderTextColor={colors.text}
                             keyboardType='default'
                             style={{
@@ -116,6 +142,8 @@ const Register = ({ navigation }) => {
                         <Icon name="envelope" size={20} color="gray" style={{ marginRight: 10 }} />
                         <TextInput
                             placeholder='Email'
+                            onChangeText={(text) => setEmail(text)}
+                            value={email}
                             placeholderTextColor={colors.text}
                             keyboardType='email-address'
                             style={{
@@ -159,6 +187,8 @@ const Register = ({ navigation }) => {
                         />
                         <TextInput
                             placeholder='Telefon numarası'
+                            onChangeText={(text) => setPhone(text)}
+                            value={phone}
                             placeholderTextColor={colors.text}
                             keyboardType='numeric'
                             style={{
@@ -191,6 +221,8 @@ const Register = ({ navigation }) => {
                         <Icon name="lock" size={20} color="gray" style={{ marginRight: 10 }} />
                         <TextInput
                             placeholder='Şifre'
+                            onChangeText={(text) => setPassword(text)}
+                            value={password}
                             placeholderTextColor={colors.text}
                             secureTextEntry={isPasswordShown}
                             style={{
@@ -235,6 +267,7 @@ const Register = ({ navigation }) => {
                 <Button
                   title="Kayıt ol"
                   loading={false}
+                  onPress={handleRegister}
                   buttonStyle={{
                     backgroundColor: colors.primary,
                     borderRadius: 10,
