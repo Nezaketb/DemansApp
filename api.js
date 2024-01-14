@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiBaseUrl = 'http://192.168.1.9:5023/api/'; 
-;
+
 export const LoginUser = async (email, password) => {
   try {
     const response = await axios.post(
