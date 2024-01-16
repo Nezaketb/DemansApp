@@ -17,7 +17,7 @@ const Login = ({ navigation }) => {
     const handleLogin = async () => {
         try {
           const success = await LoginUser(email, password, navigation);
-          
+
           if (success) {
             navigation.navigate('Main');
           }
