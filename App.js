@@ -4,7 +4,7 @@ import { NavigationContainer} from '@react-navigation/native';
 import {config} from './components/Config';
 import  Login  from './pages/Login';
 import Register from './pages/Register';
-import MedicinesInformation from './pages/MedicinesInformation';
+import EditMedicinesInformation from './pages/EditMedicinesInformation';
 import Main from './pages/Main';
 
 const Stack = createNativeStackNavigator();
@@ -16,7 +16,7 @@ function App() {
       <Stack.Screen name="Login" component={Login}/>
       <Stack.Screen name="Main" component={Main}/>
         <Stack.Screen name="Register" component={Register}/>
-        <Stack.Screen name="MedicinesInformation" component={MedicinesInformation}/>
+        <Stack.Screen name="EdditMedicinesInformation" component={EditMedicinesInformation}/>
       </Stack.Navigator>
       </NavigationContainer>
   );

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet,Image } from 'react-native';
-import { getMedicines, getPictures } from '../api';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { getMedicines } from '../api';
 import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Main = ({ navigation }) => {
+const Medicines = ({ navigation }) => {
   const [userId, setUserId] = useState(null);
   const [medicines, setMedicines] = useState([]);
   const { colors } = useTheme();
@@ -19,15 +19,6 @@ const Main = ({ navigation }) => {
     }
   };
 
-  const fetchPicture = async () => {
-    try {
-      const medicinesData = await getPictures(userId);
-      setMedicines(medicinesData.data); 
-      console.log(medicinesData);
-    } catch (error) {
-      console.error('Get pictures error:', error.message);
-    }
-  };
 
   useEffect(() => {
     const loadUserId = async () => {
@@ -46,22 +37,21 @@ const Main = ({ navigation }) => {
 
   useEffect(() => {
     if (userId) {
-     // fetchMedicines();
-      fetchPicture();
+     fetchMedicines();
     }
   }, [userId]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>HOŞGELDİNİZ</Text>
+      <Text style={styles.header}>İlaç Listesi</Text>
       <FlatList
         data={medicines}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
-          <Image ></Image>
-          <Image source={{ uri: item.Url }} style={styles.image} />
-            <Text style={styles.itemText}>{item.text}</Text>
+            <Text style={styles.itemText}>İlaç Adı: {item.name}</Text>
+            <Text style={styles.itemText}>Başlangıç Tarihi: {item.startDate}</Text>
+            <Text style={styles.itemText}>Bitiş Tarihi: {item.endDate}</Text>
           </View>
         )}
       />
@@ -96,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Main;
+export default Medicines;

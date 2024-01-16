@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginUser } from '../api';
 
 const Login = ({ navigation }) => {
@@ -16,15 +17,25 @@ const Login = ({ navigation }) => {
 
     const handleLogin = async () => {
         try {
-          const success = await LoginUser(email, password, navigation);
-
-          if (success) {
+          const response = await LoginUser(email, password);
+      
+          if (response && response.userId !== null && response.userId !== undefined) {
+            console.log("Giriş başarılı. userId:", response.userId);
+      
+            await AsyncStorage.setItem('userData', JSON.stringify({ userId: response.userId }));
+      
             navigation.navigate('Main');
+          } else {
+            console.log("Giriş başarısız. Yanıtta beklenen bilgiler bulunamadı.");
           }
         } catch (error) {
           console.error('Login error:', error.message);
         }
       };
+      
+      
+      
+      
       
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>

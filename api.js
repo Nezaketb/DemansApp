@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const apiBaseUrl = 'http://192.168.1.9:5023/api/'; 
+const apiBaseUrl = 'http://172.20.10.2:5023/api/'; 
 
 export const LoginUser = async (email, password) => {
   try {
@@ -13,31 +13,16 @@ export const LoginUser = async (email, password) => {
         password: password,
       },
     );
-    const userId = response.data;
-    console.log("Id",userId);
-    await AsyncStorage.setItem('userId', JSON.stringify(userId));
-    console.error('Giriş başarılı:', response.data);
-    return true;
+
+    console.log('Giriş başarılı:', response.data);
+
+    return response.data;
   } catch (error) {
     console.error('Giriş başarısız:', error.message);
     throw error;
   }
 };
 
-export const getUserId = async () => {
-  try {
-    const userIdString = await AsyncStorage.getItem('userId');
-    if (userIdString) {
-      const userId = JSON.parse(userIdString);
-      return userId;
-    } else {
-      return null;
-    }
-  } catch (error) {
-    console.error('Kullanıcı kimliği alınırken bir hata oluştu:', error);
-    throw error;
-  }
-};
 
 export const RegisterUser = async (email,userName,surname,phone, password) => {
   try {
@@ -75,6 +60,30 @@ export const getSentences = async () => {
 export const getMedicines = async (userId) => {
   try {
     const response = await axios.get(`${apiBaseUrl}Medicines/getMedicines/${userId}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Get medicines error:', error.message);
+    throw error;
+  }
+};
+
+
+export const getCommands = async (userId) => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}Commands/getCommand/${userId}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Get medicines error:', error.message);
+    throw error;
+  }
+};
+
+
+export const getPictures = async (userId) => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}Pictures/getPictures/${userId}`);
     console.log(response);
     return response.data;
   } catch (error) {

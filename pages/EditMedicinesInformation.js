@@ -7,7 +7,7 @@ import { Button } from 'react-native-elements';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-const MedicinesInformation = () => {
+const EditMedicinesInformation = () => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
@@ -227,4 +227,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MedicinesInformation;
+export default EditMedicinesInformation;
