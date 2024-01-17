@@ -12,7 +12,7 @@ const Medicines = ({ navigation }) => {
   const fetchMedicines = async () => {
     try {
       const medicinesData = await getMedicines(userId);
-      setMedicines(medicinesData.data); // Update to access the 'data' property
+      setMedicines(medicinesData.data); 
       console.log(medicinesData);
     } catch (error) {
       console.error('Get medicines error:', error.message);

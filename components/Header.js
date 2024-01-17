@@ -16,7 +16,7 @@ function Header() {
                 <TouchableOpacity style={{flex:0.1,justifyContent:'center',flexDirection:'column'}}
                     onPress={()=> navigation.goBack()}
                 >
-                    <Icon name='arrow-back-ios' style={{marginLeft:10,color:colors.primary}}/>
+                    <Icon name='chevron-left' style={{marginLeft:10,color:colors.primary}}/>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity style={{flex:0.1,justifyContent:'center',flexDirection:'column'}}
@@ -39,7 +39,7 @@ function Header() {
                           ])
                     }
                 >
-                    <Icon name='arrow-back-ios' style={{marginLeft:10}}/>
+                    <Icon name='chevron-left' style={{marginLeft:10}}/>
                 </TouchableOpacity>       
             }
             

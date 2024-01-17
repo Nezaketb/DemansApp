@@ -48,7 +48,7 @@ export const RegisterUser = async (email,userName,surname,phone, password) => {
 export const getSentences = async () => {
   try {
     const response = await axios.get(`${apiBaseUrl}MotivationSentences/getAllSentences`);
-    console.log('API Response:', response.data);
+    //console.log('API Response:', response.data);
     return response.data;
   } catch (error) {
     console.error('API Error:', error);

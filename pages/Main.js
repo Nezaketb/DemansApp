@@ -1,27 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet,Image } from 'react-native';
-import { getMedicines, getPictures } from '../api';
+import { getMedicines, getPictures, getSentences } from '../api';
 import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Carousel from '../components/Carousel';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Main = ({ navigation }) => {
   const [userId, setUserId] = useState(null);
-  const [medicines, setMedicines] = useState([]);
+  const [sentences, setSentences] = useState([]);
   const { colors } = useTheme();
+
 
   const fetchMedicines = async () => {
     try {
       const medicinesData = await getMedicines(userId);
-      setMedicines(medicinesData.data); // Update to access the 'data' property
+      setMedicines(medicinesData.data); 
       console.log(medicinesData);
     } catch (error) {
       console.error('Get medicines error:', error.message);
+    }
+  };
+  const fetchSentences = async () => {
+    try {
+      const senetencesData = await getSentences();
+      setSentences(senetencesData.data); 
+      console.log(senetencesData);
+    } catch (error) {
+      console.error('Get sentences error:', error.message);
     }
   };
 
   const fetchPicture = async () => {
     try {
       const medicinesData = await getPictures(userId);
+      console.log(userId);
       setMedicines(medicinesData.data); 
       console.log(medicinesData);
     } catch (error) {
@@ -44,27 +58,34 @@ const Main = ({ navigation }) => {
     loadUserId();
   }, []);
 
+  // useEffect(() => {
+  //   if (userId) {
+  //    // fetchMedicines();
+  //     fetchPicture();
+  //   }
+  // }, [userId]);
+
   useEffect(() => {
-    if (userId) {
-     // fetchMedicines();
-      fetchPicture();
-    }
-  }, [userId]);
+    fetchSentences()
+  }
+
+  )
 
   return (
     <View style={styles.container}>
+      <Header/>
       <Text style={styles.header}>HOŞGELDİNİZ</Text>
+      <Carousel/>
       <FlatList
-        data={medicines}
+        data={sentences}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
-          <Image ></Image>
-          <Image source={{ uri: item.Url }} style={styles.image} />
             <Text style={styles.itemText}>{item.text}</Text>
           </View>
         )}
       />
+      <Footer/>
     </View>
   );
 };

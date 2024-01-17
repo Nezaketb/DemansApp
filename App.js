@@ -6,6 +6,7 @@ import  Login  from './pages/Login';
 import Register from './pages/Register';
 import EditMedicinesInformation from './pages/EditMedicinesInformation';
 import Main from './pages/Main';
+import Medicines from './pages/Medicines';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ function App() {
     <NavigationContainer theme={config}>
       <Stack.Navigator screenOptions={{headerShown:false}}>
       <Stack.Screen name="Login" component={Login}/>
+      <Stack.Screen name="Medicines" component={Medicines}/>
       <Stack.Screen name="Main" component={Main}/>
         <Stack.Screen name="Register" component={Register}/>
         <Stack.Screen name="EdditMedicinesInformation" component={EditMedicinesInformation}/>

@@ -22,7 +22,7 @@ const Login = ({ navigation }) => {
           if (response && response.userId !== null && response.userId !== undefined) {
             console.log("Giriş başarılı. userId:", response.userId);
       
-            await AsyncStorage.setItem('userData', JSON.stringify({ userId: response.userId }));
+            await AsyncStorage.setItem('userId', JSON.stringify(response.userId ));
       
             navigation.navigate('Main');
           } else {

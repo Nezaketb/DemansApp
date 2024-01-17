@@ -45,11 +45,6 @@ const Register = ({ navigation }) => {
                     }}>
                         Hesap oluştur
                     </Text>
-
-                    <Text style={{
-                        fontSize: 16,
-                        color: colors.text
-                    }}>Düğününüzü planlamaya başlayın</Text>
                 </View>
 
                 <View style={{ marginBottom: 12 }}>
