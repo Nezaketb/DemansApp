@@ -22,6 +22,24 @@ export const LoginUser = async (email, password) => {
   }
 };
 
+export const LoginCompanion = async (email, password) => {
+  try {
+    const response = await axios.post(
+      `${apiBaseUrl}Companions/Login`,
+      {
+        email: email,
+        password: password,
+      },
+    );
+
+    console.log('Giriş başarılı:', response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error('Giriş başarısız:', error.message);
+    throw error;
+  }
+};
 
 export const RegisterUser = async (email,userName,surname,phone, password) => {
   try {
