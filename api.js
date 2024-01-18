@@ -58,11 +58,37 @@ export const addCompanion = async (adress,email,name,surname,phone, password,use
         userId:userId
       },
     );
-
+    console.error('Kayıt başarılı:', response.data);
+    return true;
+  }
+  catch (error) {
+    console.error('Kayıt başarısız:', error.message);
+    throw error;
+  }
+};
+export const addPictures = async (text,url,status,userId) => {
+  try {
+    const response = await axios.post(
+      `${apiBaseUrl}Pictures/addPictures`,
+      {
+        text:text,
+        url:url,
+        status:status,
+        userId:userId
+      },
+    );
+    console.error('Kayıt başarılı:', response.data);
+    return true;
+  }
+  catch (error) {
+    console.error('Kayıt başarısız:', error.message);
+    throw error;
+  }
+};
     export const addMedicines = async ( name,  usageDuration,  status, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
       try {
         const response = await axios.post(
-          `${apiBaseUrl}Companions/addCompanion`,
+          `${apiBaseUrl}Medicines/addMedicines`,
           {
             name:name,
             usageDuration:usageDuration,
