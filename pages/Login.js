@@ -24,7 +24,7 @@ const Login = ({ navigation }) => {
       
             await AsyncStorage.setItem('userId', JSON.stringify(response.userId ));
       
-            navigation.navigate('Main');
+            navigation.navigate('AddCompanion');
           } else {
             console.log("Giriş başarısız. Yanıtta beklenen bilgiler bulunamadı.");
           }
@@ -50,11 +50,6 @@ const Login = ({ navigation }) => {
                     }}>
                         Giriş Yap
                     </Text>
-
-                    <Text style={{
-                        fontSize: 16,
-                        color: colors.text
-                    }}>Düğününüzü planlamaya başlayın</Text>
                 </View>
 
                 <View style={{ marginBottom: 12 }}>

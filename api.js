@@ -1,8 +1,7 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const apiBaseUrl = 'http://172.20.10.2:5023/api/'; 
+const apiBaseUrl = 'http://172.2.2.0:5023/api/'; 
 
 export const LoginUser = async (email, password) => {
   try {
@@ -34,6 +33,29 @@ export const RegisterUser = async (email,userName,surname,phone, password) => {
         surname:surname,
         phone:phone,
         password: password,
+      },
+    );
+
+    console.error('Kayıt başarılı:', response.data);
+    return true;
+  } catch (error) {
+    console.error('Kayıt başarısız:', error.message);
+    throw error;
+  }
+};
+
+export const addCompanion = async (adress,email,name,surname,phone, password,userId) => {
+  try {
+    const response = await axios.post(
+      `${apiBaseUrl}Companions/addCompanion`,
+      {
+        adress:adress,
+        email: email,
+        name:name,
+        surname:surname,
+        phone:phone,
+        password: password,
+        userId:userId
       },
     );
 
