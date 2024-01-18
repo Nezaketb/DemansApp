@@ -59,6 +59,29 @@ export const addCompanion = async (adress,email,name,surname,phone, password,use
       },
     );
 
+    export const addMedicines = async ( name,  usageDuration,  status, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
+      try {
+        const response = await axios.post(
+          `${apiBaseUrl}Companions/addCompanion`,
+          {
+            name:name,
+            usageDuration:usageDuration,
+            status:status,
+            usagePurpose:usagePurpose,
+            startDate:startDate,
+            endDate,
+            moon:moon,
+            moonTime:moonTime,
+            afternoon:afternoon,
+            afternoonTime:afternoonTime,
+            eveningTime:eveningTime,
+            evening:evening,
+            night:night,
+            nightTime:nightTime,
+            userId:userId
+          },
+        );
+
     console.error('Kayıt başarılı:', response.data);
     return true;
   } catch (error) {
