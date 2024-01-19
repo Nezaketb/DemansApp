@@ -51,7 +51,7 @@ const Carousel = () => {
         setCurrentIndex(0);
       }
       flatListRef.current?.scrollToIndex({ index: currentIndex, animated: true });
-    }, 3000); // Adjust the interval time as needed (here it's set to 3 seconds)
+    }, 3000); 
 
     return () => clearInterval(scrollInterval);
   }, [currentIndex, pictures.length]);

@@ -20,12 +20,12 @@ const Footer = () => {
     navigation.navigate('Login');
   };
 
-  const navigateToGuestList = () => {
-    navigation.navigate('GuestList');
+  const navigateToMedicines = () => {
+    navigation.navigate('Medicines');
   };
 
   const navigateToInviteInformation = () => {
-    navigation.navigate('InviteInformation');
+    navigation.navigate('AddMedicines');
   };
 
   return (
@@ -33,16 +33,16 @@ const Footer = () => {
       <TouchableOpacity style={styles.tab} onPress={navigateToMain}>
         <Icon name="home" style={{color:colors.primary}} size={30} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.tab} onPress={navigateToGuestList}>
+      <TouchableOpacity style={styles.tab} onPress={navigateToMedicines}>
        <Icon name="file" style={{color:colors.primary}} size={30} />
       </TouchableOpacity> 
-      <TouchableOpacity style={styles.tab1} onPress={navigateToRegister}>
+      <TouchableOpacity style={styles.tab1} onPress={navigateToMedicines}>
        <Icon name="plus-circle" style={{color:colors.primary}} size={50} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.tab} onPress={navigateToRegister}>
+      <TouchableOpacity style={styles.tab} onPress={navigateToMedicines}>
        <Icon name="calendar" style={{color:colors.primary}} size={30} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.tab} onPress={navigateToInviteInformation}>
+      <TouchableOpacity style={styles.tab} onPress={navigateToMedicines}>
         <Icon name="user" style={{color:colors.primary}} size={30} />
       </TouchableOpacity>
     </View>
