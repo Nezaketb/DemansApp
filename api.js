@@ -84,18 +84,17 @@ export const addCompanion = async (adress,email,name,surname,phone, password,use
     throw error;
   }
 };
-export const addPictures = async (text,url,status,userId) => {
+export const addPictures = async (text,url,userId) => {
   try {
     const response = await axios.post(
       `${apiBaseUrl}Pictures/addPictures`,
       {
         text:text,
         url:url,
-        status:status,
         userId:userId
       },
     );
-    console.error('Kayıt başarılı:', response.data);
+    console.error('Kayıt başarılı:', response);
     return true;
   }
   catch (error) {
@@ -103,14 +102,13 @@ export const addPictures = async (text,url,status,userId) => {
     throw error;
   }
 };
-    export const addMedicines = async ( name,  usageDuration,  status, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
+    export const addMedicines = async ( name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
       try {
         const response = await axios.post(
-          `${apiBaseUrl}Medicines/addMedicines`,
+          `${apiBaseUrl}Medicines/addMedicine`,
           {
             name:name,
             usageDuration:usageDuration,
-            status:status,
             usagePurpose:usagePurpose,
             startDate:startDate,
             endDate,
@@ -125,8 +123,7 @@ export const addPictures = async (text,url,status,userId) => {
             userId:userId
           },
         );
-
-    console.error('Kayıt başarılı:', response.data);
+    console.log('Kayıt başarılı:', response.data);
     return true;
   } catch (error) {
     console.error('Kayıt başarısız:', error.message);
