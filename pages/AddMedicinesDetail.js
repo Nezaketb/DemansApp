@@ -68,22 +68,23 @@ const AddMedicinesDetail = ({ route, navigation }) => {
     const handleAddMedicines = async () => {
         try {
           await addMedicines(name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId);
+          console.log("data")
         } catch (error) {
           console.error('Error in AddMedicines:', error);
         }
       };
       
-    //   useEffect(() => {
-    //     const { setStartDate, selectedDate } = route.params;
+      useEffect(() => {
+        const { setStartDate, selectedDate } = route.params;
       
-    //     console.log("setStartDate:", setStartDate);
-    //     console.log("selectedDate:", selectedDate);
+        console.log("setStartDate:", setStartDate);
+        console.log("selectedDate:", selectedDate);
       
-    //     const startDateFunction = setStartDate; 
-    //     if (startDateFunction && selectedDate) {
-    //       startDateFunction(selectedDate); 
-    //     }
-    // }, [route.params]);
+        const startDateFunction = setStartDate; 
+        if (startDateFunction && selectedDate) {
+          startDateFunction(selectedDate); 
+        }
+    }, [route.params]);
     
     
       

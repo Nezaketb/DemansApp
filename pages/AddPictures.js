@@ -15,18 +15,29 @@ const AddPictures = ({ navigation }) => {
   const pickImage = () => {
     launchImageLibrary({ mediaType: 'photo' }, (response) => {
       if (!response.didCancel) {
-        setUrl(response);
+        handleAddPictures(response);
       }
     });
   };
-
-  const handleAddPictures = async () => {
+  
+  const handleAddPictures = async (response) => {
     try {
-      await addPictures({ text, url,userId });
+      if (response && response.assets && response.assets.length > 0) {
+        const firstAsset = response.assets[0];
+        const fileName = firstAsset.fileName;
+  
+        // Diğer işlemleri gerçekleştirin...
+        await addPictures(text, fileName, userId);
+      } else {
+        console.warn('Invalid response format or no assets selected.');
+      }
     } catch (error) {
-      console.error('Error in AddPictures:', error);
+      console.error('Error in handleAddPictures:', error);
     }
   };
+  
+
+  
 
   useEffect(() => {
     const loadUserId = async () => {
@@ -46,19 +57,13 @@ const AddPictures = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Resim Ekleme</Text>
-      {/* <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+      <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
         {url ? (
           <Image source={{ uri: url.uri }} style={styles.image} />
         ) : (
           <Text style={styles.imagePlaceholder}>Resim Seç</Text>
         )}
-      </TouchableOpacity> */}
-          <TextInput
-        style={styles.input}
-        placeholder="Metin"
-        value={url}
-        onChangeText={(text) => setUrl(text)}
-      />
+      </TouchableOpacity>
       <Text style={styles.label}>Metin</Text>
       <TextInput
         style={styles.input}
