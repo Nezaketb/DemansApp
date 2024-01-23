@@ -11,6 +11,7 @@ import AddCompanion from './pages/AddCompanion';
 import AddMedicines from './pages/AddMedicines';
 import AddMedicinesDetail from './pages/AddMedicinesDetail';
 import AddPictures from './pages/AddPictures';
+import Location from './pages/Location';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,10 +24,11 @@ function App() {
       <Stack.Screen name="AddMedicines" component={AddMedicines}/>
       <Stack.Screen name="AddPictures" component={AddPictures}/>
       <Stack.Screen name="Main" component={Main}/>
+      <Stack.Screen name="Location" component={Location}/>
       <Stack.Screen name="Medicines" component={Medicines}/>
       <Stack.Screen name="AddCompanion" component={AddCompanion}/>
-        <Stack.Screen name="Register" component={Register}/>
-        <Stack.Screen name="EdditMedicinesInformation" component={EditMedicinesInformation}/>
+      <Stack.Screen name="Register" component={Register}/>
+      <Stack.Screen name="EdditMedicinesInformation" component={EditMedicinesInformation}/>
       </Stack.Navigator>
       </NavigationContainer>
   );

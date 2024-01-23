@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const apiBaseUrl = 'http://172.20.10.2:5023/api/'; 
+const apiBaseUrl = 'http://192.168.1.147:5023/api/'; 
 
 export const LoginUser = async (email, password) => {
   try {
@@ -84,6 +84,7 @@ export const addCompanion = async (adress,email,name,surname,phone, password,use
     throw error;
   }
 };
+
 export const addPictures = async (text,url,userId) => {
   try {
     const response = await axios.post(
@@ -102,6 +103,7 @@ export const addPictures = async (text,url,userId) => {
     throw error;
   }
 };
+
     export const addMedicines = async ( name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
       try {
         const response = await axios.post(

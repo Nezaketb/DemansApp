@@ -22,8 +22,7 @@ const AddPictures = ({ navigation }) => {
 
   const handleAddPictures = async () => {
     try {
-      await addPictures({ text, url, userId });
-
+      await addPictures({ text, url,userId });
     } catch (error) {
       console.error('Error in AddPictures:', error);
     }
@@ -47,19 +46,25 @@ const AddPictures = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Resim Ekleme</Text>
-      <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+      {/* <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
         {url ? (
           <Image source={{ uri: url.uri }} style={styles.image} />
         ) : (
           <Text style={styles.imagePlaceholder}>Resim Seç</Text>
         )}
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+          <TextInput
+        style={styles.input}
+        placeholder="Metin"
+        value={url}
+        onChangeText={(text) => setUrl(text)}
+      />
       <Text style={styles.label}>Metin</Text>
       <TextInput
         style={styles.input}
         placeholder="Metin"
         value={text}
-        onChangeText={(text) => setText(text)}
+        onChangeText={(tex) => setText(tex)}
       />
       <TouchableOpacity style={styles.button} onPress={handleAddPictures}>
         <Text style={styles.buttonText}>Kaydet</Text>
@@ -105,6 +110,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+    color:'black',
     marginBottom: 10,
     padding: 10,
   },
