@@ -12,29 +12,55 @@ const AddPictures = ({ navigation }) => {
 
   const { colors } = useTheme();
 
+  
   const pickImage = () => {
     launchImageLibrary({ mediaType: 'photo' }, (response) => {
       if (!response.didCancel) {
-        handleAddPictures(response);
+        handleImagePick(response);
       }
     });
   };
-  
-  const handleAddPictures = async (response) => {
+
+  const handleImagePick = async (response) => {
     try {
       if (response && response.assets && response.assets.length > 0) {
         const firstAsset = response.assets[0];
         const fileName = firstAsset.fileName;
-  
-        // Diğer işlemleri gerçekleştirin...
-        await addPictures(text, fileName, userId);
+
+        // Resmi göster
+        setUrl(firstAsset.uri);
+
+        // Resmi sunucuya yükle
+        await uploadImageToServer(firstAsset);
+
+        // Resim bilgisini kullanıcının profiline kaydet
+        await saveImageToUserProfile(fileName);
       } else {
         console.warn('Invalid response format or no assets selected.');
       }
     } catch (error) {
-      console.error('Error in handleAddPictures:', error);
+      console.error('Error in handleImagePick:', error);
     }
   };
+
+  const uploadImageToServer = async (image) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', {
+        uri: image.uri,
+        type: image.type,
+        name: image.fileName,
+      });
+
+      await addPictures(text, image.fileName, userId);
+     
+    } catch (error) {
+      console.error('Error in uploadImageToServer:', error);
+    }
+  };
+
+  
+ 
   
 
   
@@ -71,7 +97,7 @@ const AddPictures = ({ navigation }) => {
         value={text}
         onChangeText={(tex) => setText(tex)}
       />
-      <TouchableOpacity style={styles.button} onPress={handleAddPictures}>
+      <TouchableOpacity style={styles.button} onPress={handleImagePick}>
         <Text style={styles.buttonText}>Kaydet</Text>
       </TouchableOpacity>
     </View>
