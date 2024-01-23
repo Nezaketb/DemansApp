@@ -24,7 +24,7 @@ const Login = ({ navigation }) => {
       
             await AsyncStorage.setItem('userId', JSON.stringify(response.userId ));
       
-            navigation.navigate('AddCompanion');
+            navigation.navigate('AddPictures');
           } else {
             console.log("Giriş başarısız. Yanıtta beklenen bilgiler bulunamadı.");
           }

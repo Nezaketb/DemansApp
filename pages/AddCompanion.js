@@ -9,7 +9,6 @@ import { addCompanion} from '../api';
 
 const AddCompanion = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
     const [adress, setAdress] = useState('');
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
