@@ -166,27 +166,6 @@ const Login = ({ navigation }) => {
                     marginTop: 10,
                   }}
                 />
-
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
-                    <View
-                        style={{
-                            flex: 1,
-                            height: 1,
-                            backgroundColor: colors.text,
-                            marginHorizontal: 10
-                        }}
-                    />
-                    <Text style={{ fontSize: 14,color:colors.text}}>Google hasabınız ile giriş yapın</Text>
-                    <View
-                        style={{
-                            flex: 1,
-                            height: 1,
-                            backgroundColor: colors.text,
-                            marginHorizontal: 10
-                        }}
-                    />
-                </View>
-
                 <View style={{
                     flexDirection: "row",
                     justifyContent: "center",

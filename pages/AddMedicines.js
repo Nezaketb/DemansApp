@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { addMedicines,getMedicines} from '../api';
+import FooterCompanion from '../components/FooterCompanion';
 
 const AddMedicines = ({ navigation }) => {
     const [medicines, setMedicines] = useState('');
@@ -34,7 +35,7 @@ const AddMedicines = ({ navigation }) => {
     setSelectedDay(day.dateString);
     console.log(day.dateString);
   
-    navigation.navigate('AddMedicinesDetail', { selectedDate: day.dateString, setStartDate: setStartDate });
+    //navigation.navigate('AddMedicinesDetail', { selectedDate: day.dateString, setStartDate: setStartDate });
     
     const currentDate = new Date(day.dateString);
     currentDate.setDate(currentDate.getDate() +1);
@@ -116,7 +117,7 @@ const AddMedicines = ({ navigation }) => {
     </View>
     <View style={{padding:25}}></View>
     </ScrollView>
-          <Footer />
+          <FooterCompanion/>
         </View>
       );
     };

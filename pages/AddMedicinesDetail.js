@@ -7,6 +7,7 @@ import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addMedicines} from '../api';
+import FooterCompanion from '../components/FooterCompanion';
 
 const AddMedicinesDetail = ({ route, navigation }) => {
     const [name, setName] = useState('');
@@ -74,17 +75,17 @@ const AddMedicinesDetail = ({ route, navigation }) => {
         }
       };
       
-      useEffect(() => {
-        const { setStartDate, selectedDate } = route.params;
+    //   useEffect(() => {
+    //     const { setStartDate, selectedDate } = route.params;
       
-        console.log("setStartDate:", setStartDate);
-        console.log("selectedDate:", selectedDate);
+    //     console.log("setStartDate:", setStartDate);
+    //     console.log("selectedDate:", selectedDate);
       
-        const startDateFunction = setStartDate; 
-        if (startDateFunction && selectedDate) {
-          startDateFunction(selectedDate); 
-        }
-    }, [route.params]);
+    //     const startDateFunction = setStartDate; 
+    //     if (startDateFunction && selectedDate) {
+    //       startDateFunction(selectedDate); 
+    //     }
+    // }, [route.params]);
     
     
       
@@ -284,6 +285,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                 />
             </View>
             </ScrollView>
+            <FooterCompanion/>
         </SafeAreaView>
     )
 }

@@ -4,28 +4,28 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from '@react-navigation/native';
 
-const Footer = () => {
+const FooterCompanion = () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
   const navigateToMain = () => {
-    navigation.navigate('Main');
+    navigation.navigate('MainCompanion');
   };
 
   const navigateToUserProfie = () => {
-    navigation.navigate('UserProfile');
-  };
-
-  const navigateToLogin = () => {
-    navigation.navigate('Login');
+    navigation.navigate('AddMedicinesDetail');
   };
 
   const navigateToMedicines = () => {
-    navigation.navigate('Medicines');
+    navigation.navigate('AddMedicines');
   };
 
-  const navigateToInviteInformation = () => {
-    navigation.navigate('AddMedicines');
+  const navigateToPicture = () => {
+    navigation.navigate('AddPictures');
+  };
+
+  const navigateToLocation = () => {
+    navigation.navigate('Location');
   };
 
   return (
@@ -34,10 +34,16 @@ const Footer = () => {
         <Icon name="home" style={{color:colors.primary}} size={30} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.tab} onPress={navigateToMedicines}>
-       <Icon name="file" style={{color:colors.primary}} size={30} />
+       <Icon name="calendar" style={{color:colors.primary}} size={30} />
+      </TouchableOpacity> 
+      <TouchableOpacity style={styles.tab} onPress={navigateToLocation}>
+       <Icon name="map" style={{color:colors.primary}} size={30} />
+      </TouchableOpacity> 
+      <TouchableOpacity style={styles.tab} onPress={navigateToPicture}>
+       <Icon name="image" style={{color:colors.primary}} size={30} />
       </TouchableOpacity> 
       <TouchableOpacity style={styles.tab} onPress={navigateToUserProfie}>
-        <Icon name="user" style={{color:colors.primary}} size={30} />
+        <Icon name="plus" style={{color:colors.primary}} size={30} />
       </TouchableOpacity>
     </View>
   );
@@ -63,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Footer;
+export default FooterCompanion;

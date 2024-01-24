@@ -4,6 +4,7 @@ import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import { addPictures } from '../api';
+import FooterCompanion from '../components/FooterCompanion';
 
 const AddPictures = ({ navigation }) => {
   const [text, setText] = useState('');
@@ -100,6 +101,7 @@ const AddPictures = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleImagePick}>
         <Text style={styles.buttonText}>Kaydet</Text>
       </TouchableOpacity>
+      <FooterCompanion/>
     </View>
   );
 };

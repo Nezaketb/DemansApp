@@ -4,6 +4,7 @@ import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker } from 'react-native-maps';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import FooterCompanion from '../components/FooterCompanion';
 
 const Location = ({ navigation }) => {
   const [location, setLocation] = useState(null);  
@@ -87,6 +88,7 @@ const Location = ({ navigation }) => {
       <Text style={{ color: colors.text }}>
         Boylam: {location && location.coords ? location.coords.longitude : null}
       </Text>
+      <FooterCompanion/>
     </View>
   );
 };

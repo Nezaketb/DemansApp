@@ -5,7 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LoginUser } from '../api';
+import { loginCompanion } from '../api';
 
 const LoginCompanion = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -16,14 +16,14 @@ const LoginCompanion = ({ navigation }) => {
 
     const handleLogin = async () => {
         try {
-          const response = await LoginUser(email, password);
+          const response = await loginCompanion(email, password);
       
           if (response && response.userId !== null && response.userId !== undefined) {
             console.log("Giriş başarılı. userId:", response.userId);
       
             await AsyncStorage.setItem('userId', JSON.stringify(response.userId ));
       
-            navigation.navigate('AddMedicines');
+            navigation.navigate('MainCompanion');
           } else {
             console.log("Giriş başarısız. Yanıtta beklenen bilgiler bulunamadı.");
           }

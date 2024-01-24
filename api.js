@@ -22,7 +22,7 @@ export const LoginUser = async (email, password) => {
   }
 };
 
-export const LoginCompanion = async (email, password) => {
+export const loginCompanion = async (email, password) => {
   try {
     const response = await axios.post(
       `${apiBaseUrl}Companions/Login`,
@@ -136,6 +136,17 @@ export const addPictures = async (text,url,userId) => {
 export const getSentences = async () => {
   try {
     const response = await axios.get(`${apiBaseUrl}MotivationSentences/getAllSentences`);
+    //console.log('API Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
+};
+
+export const getAllUsers= async () => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}Users/getAllUsers`);
     //console.log('API Response:', response.data);
     return response.data;
   } catch (error) {

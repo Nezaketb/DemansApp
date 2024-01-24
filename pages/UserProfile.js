@@ -5,7 +5,6 @@ import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { colors } from 'react-native-elements';
 
 const UserProfile = ({ navigation }) => {
   const [userId, setUserId] = useState(null);
@@ -28,10 +27,8 @@ const UserProfile = ({ navigation }) => {
       phone:targetUser.phone,
       emergencyPhone:targetUser.emergencyPhone,
       sex:targetUser.sex
-      // Diğer özellikleri istediğiniz gibi ekleyin
     };
 
-    // filteredProfile'ı state'e atayabilirsiniz
     setProfile(targetUser);
 
     console.log(profile);
@@ -65,12 +62,8 @@ const UserProfile = ({ navigation }) => {
 
   const handleLogout = async () => {
     try {
-      // AsyncStorage üzerinden kullanıcı oturum bilgilerini sil
       await AsyncStorage.removeItem('userId');
-      // Diğer gerekli bilgileri silebilirsiniz
-
-      // Çıkış yapıldığında login sayfasına yönlendir
-      navigation.replace('Login'); // Bu kısmı kendi projenizdeki login sayfasının adıyla değiştirin
+      navigation.replace('Login'); 
     } catch (error) {
       console.error('Logout error:', error.message);
     }
