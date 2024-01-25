@@ -33,20 +33,14 @@ const AddMedicines = ({ navigation }) => {
     
   const handleDayPress = (day) => {
     setSelectedDay(day.dateString);
-    console.log(day.dateString);
-  
-    //navigation.navigate('AddMedicinesDetail', { selectedDate: day.dateString, setStartDate: setStartDate });
-    
     const currentDate = new Date(day.dateString);
     currentDate.setDate(currentDate.getDate() +1);
   
     const dayMedicines = medicines.filter(medicine => {
-      const startDate = new Date(medicine.startDate);
-      const endDate = new Date(medicine.endDate);
+    const startDate = new Date(medicine.startDate);
+    const endDate = new Date(medicine.endDate);
       
-      return currentDate >= startDate && currentDate <= endDate;
-
-
+    return currentDate >= startDate && currentDate <= endDate;
     });
   
     setSelectedDayMedicines(dayMedicines);

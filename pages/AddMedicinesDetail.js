@@ -23,46 +23,109 @@ const AddMedicinesDetail = ({ route, navigation }) => {
     const [afternoonTime, setAfternoonTime] = useState('');
     const [eveningTime, setEveningTime] = useState('');
     const [nightTime, setNightTime] = useState('');
+    const [selectedAfternoonTime, setSelectedAfternoonTime] = useState('');
+    const [selectedEveningTime, setSelectedEveningTime] = useState('');
+    const [selectedNightTime, setSelectedNightTime] = useState('');
+    const [selectedMoonTime, setSelectedMoonTime] = useState('');
+    const [showAfternoonTimePicker, setShowAfternoonTimePicker] = useState(false);
+    const [showEveningTimePicker, setShowEveningTimePicker] = useState(false);
+    const [showNightTimePicker, setShowNightTimePicker] = useState(false);
+    const [showMoonTimePicker, setShowMoonTimePicker] = useState(false);
     const [userId, setUserId] = useState('');
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(new Date());
     const [showDate, setShowDate] = useState(false);
     const [showTime, setShowTime] = useState(false);    
     const [selectedDate, setSelectedDate] = useState('');
-    const [selectedTime, setSelectedTime] = useState('');
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const [showEndDatePicker, setShowEndDatePicker] = useState(false);
     
-    const showDatePicker = () => {
-        setShowDate(true);
-    };
+ 
+     const openStartDatePicker = () => {
+    setShowStartDatePicker(true);
+  };
 
-    const showTimePicker = () => {
-        setShowTime(true);
-    };
+  const openEndDatePicker = () => {
+    setShowEndDatePicker(true);
+  };
 
-    const updateSelectedDate = (selectedDate) => {
-        const formattedDate = selectedDate.toLocaleDateString();
-        setSelectedDate(formattedDate);
-      };
-    
-      const updateSelectedTime = (selectedTime) => {
-        const formattedTime = selectedTime.toLocaleTimeString();
-        setSelectedTime(formattedTime);
-      };
+  const updateSelectedDate = (selectedDate, dateType) => {
+    const formattedDate = selectedDate.toLocaleDateString();
+    setSelectedDate(formattedDate);
 
-    const onChangeDate = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setShowDate(Platform.OS === 'ios');
-        setDate(currentDate);
-        updateSelectedDate(currentDate);
-        setStartDate(currentDate); 
-      };
-    
-      const onChangeTime = (event, selectedTime) => {
+    if (dateType === 'start') {
+      setShowStartDatePicker(false);
+    } else if (dateType === 'end') {
+      setShowEndDatePicker(false);
+    }
+  };
+
+  const onChangeStartDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowStartDatePicker(Platform.OS === 'ios');
+    setDate(currentDate);
+    updateSelectedDate(currentDate, 'start');
+    setStartDate(currentDate);
+  };
+
+  const onChangeEndDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowEndDatePicker(Platform.OS === 'ios');
+    setDate(currentDate);
+    updateSelectedDate(currentDate, 'end');
+    setEndDate(currentDate);
+  };
+      const onChangeAfternoonTime = (event, selectedTime) => {
         const currentTime = selectedTime || time;
-        setShowTime(Platform.OS === 'ios');
+        setShowAfternoonTimePicker(Platform.OS === 'ios');
         setTime(currentTime);
-        updateSelectedTime(currentTime);
-      };
+        updateSelectedTime(currentTime, 'afternoon');
+    };
+
+    const onChangeEveningTime = (event, selectedTime) => {
+        const currentTime = selectedTime || time;
+        setShowEveningTimePicker(Platform.OS === 'ios');
+        setTime(currentTime);
+        updateSelectedTime(currentTime, 'evening');
+    };
+
+    const onChangeNightTime = (event, selectedTime) => {
+        const currentTime = selectedTime || time;
+        setShowNightTimePicker(Platform.OS === 'ios');
+        setTime(currentTime);
+        updateSelectedTime(currentTime, 'night');
+    };
+
+    const onChangeMoonTime = (event, selectedTime) => {
+        const currentTime = selectedTime || time;
+        setShowMoonTimePicker(Platform.OS === 'ios');
+        setTime(currentTime);
+        updateSelectedTime(currentTime, 'moon');
+    };
+
+    const updateSelectedTime = (selectedTime, timeType) => {
+        const formattedTime = selectedTime.toLocaleTimeString();
+        switch (timeType) {
+            case 'afternoon':
+                setSelectedAfternoonTime(formattedTime);
+                setAfternoonTime(selectedTime);
+                break;
+            case 'evening':
+                setSelectedEveningTime(formattedTime);
+                setEveningTime(selectedTime);
+                break;
+            case 'night':
+                setSelectedNightTime(formattedTime);
+                setNightTime(selectedTime);
+                break;
+            case 'moon':
+                setSelectedMoonTime(formattedTime);
+                setMoonTime(selectedTime);
+                break;
+            default:
+                break;
+        }
+    };
 
     const { colors } = useTheme();
 
@@ -75,21 +138,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
         }
       };
       
-    //   useEffect(() => {
-    //     const { setStartDate, selectedDate } = route.params;
-      
-    //     console.log("setStartDate:", setStartDate);
-    //     console.log("selectedDate:", selectedDate);
-      
-    //     const startDateFunction = setStartDate; 
-    //     if (startDateFunction && selectedDate) {
-    //       startDateFunction(selectedDate); 
-    //     }
-    // }, [route.params]);
     
-    
-      
-
       useEffect(() => {
         const loadUserId = async () => {
           try {
@@ -225,49 +274,290 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                 </View>
 
                 <View style={{ marginBottom: 12 }}>
-                    <Text style={{
-                    fontSize: 16,
-                    fontWeight: '400',
-                    marginVertical: 8,
-                    color: colors.text
-                    }}>Bitiş Tarihi</Text>
-                    <View style={{
-                    width: "100%",
-                    height: 48,
-                    borderColor: colors.text,
-                    borderWidth: 1,
-                    borderRadius: 8,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    paddingLeft: 22,
-                    flexDirection: 'row'
-                    }}>
-                    <TouchableOpacity onPress={showDatePicker}>
-                        <Icon name="calendar" size={20} color="gray" style={{ marginRight: 10 }} />
-                    </TouchableOpacity>
-                    <TextInput
-                        placeholder='Tarih'
-                        placeholderTextColor={colors.text}
-                        keyboardType='number-pad'
-                        value={selectedDate}
-                        style={{
-                        flex: 1,
-                        color: colors.text
-                        }}
-                    />
-                    </View>
-                </View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: '400',
+                marginVertical: 8,
+                color: colors.text,
+              }}
+            >
+              Başlangıç Tarihi
+            </Text>
+            <View
+              style={{
+                width: '100%',
+                height: 48,
+                borderColor: colors.text,
+                borderWidth: 1,
+                borderRadius: 8,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingLeft: 22,
+                flexDirection: 'row',
+              }}
+            >
+              <TouchableOpacity onPress={openStartDatePicker}>
+                <Icon name="calendar" size={20} color="gray" style={{ marginRight: 10 }} />
+              </TouchableOpacity>
+              <TextInput
+                placeholder="Tarih"
+                placeholderTextColor={colors.text}
+                keyboardType="number-pad"
+                value={selectedDate}
+                style={{
+                  flex: 1,
+                  color: colors.text,
+                }}
+              />
+            </View>
+          </View>
 
-                {showDate && (
-                    <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChangeDate}
-                    />
-                )}
+          {showStartDatePicker && (
+            <DateTimePicker
+              testID="dateTimePickerStartDate"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeStartDate}
+            />
+          )}
+
+          <View style={{ marginBottom: 12 }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: '400',
+                marginVertical: 8,
+                color: colors.text,
+              }}
+            >
+              Bitiş Tarihi
+            </Text>
+            <View
+              style={{
+                width: '100%',
+                height: 48,
+                borderColor: colors.text,
+                borderWidth: 1,
+                borderRadius: 8,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingLeft: 22,
+                flexDirection: 'row',
+              }}
+            >
+              <TouchableOpacity onPress={openEndDatePicker}>
+                <Icon name="calendar" size={20} color="gray" style={{ marginRight: 10 }} />
+              </TouchableOpacity>
+              <TextInput
+                placeholder="Tarih"
+                placeholderTextColor={colors.text}
+                keyboardType="number-pad"
+                value={selectedDate}
+                style={{
+                  flex: 1,
+                  color: colors.text,
+                }}
+              />
+            </View>
+          </View>
+
+          {showEndDatePicker && (
+            <DateTimePicker
+              testID="dateTimePickerEndDate"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeEndDate}
+            />
+          )}
+
+
+                
+                <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: '400',
+                            marginVertical: 8,
+                            color: colors.text
+                        }}>Akşam Saati</Text>
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: colors.text,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22,
+                            flexDirection: 'row'
+                        }}>
+                            <TouchableOpacity onPress={() => setShowEveningTimePicker(true)}>
+                                <Icon name="clock" size={20} color="gray" style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <TextInput
+                                placeholder='Saati'
+                                placeholderTextColor={colors.text}
+                                keyboardType='number-pad'
+                                value={selectedEveningTime}
+                                style={{
+                                    flex: 1,
+                                    color: colors.text
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    {showEveningTimePicker && (
+                        <DateTimePicker
+                            testID="dateTimePickerEveningTime"
+                            value={time}
+                            mode="time"
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChangeEveningTime}
+                        />
+                    )}
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: '400',
+                            marginVertical: 8,
+                            color: colors.text
+                        }}>Gece Saati</Text>
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: colors.text,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22,
+                            flexDirection: 'row'
+                        }}>
+                            <TouchableOpacity onPress={() => setShowNightTimePicker(true)}>
+                                <Icon name="clock" size={20} color="gray" style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <TextInput
+                                placeholder='Saati'
+                                placeholderTextColor={colors.text}
+                                keyboardType='number-pad'
+                                value={selectedNightTime}
+                                style={{
+                                    flex: 1,
+                                    color: colors.text
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    {showNightTimePicker && (
+                        <DateTimePicker
+                            testID="dateTimePickerNightTime"
+                            value={time}
+                            mode="time"
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChangeNightTime}
+                        />
+                    )}
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: '400',
+                            marginVertical: 8,
+                            color: colors.text
+                        }}>Öğleden Sonra Saati</Text>
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: colors.text,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22,
+                            flexDirection: 'row'
+                        }}>
+                            <TouchableOpacity onPress={() => setShowAfternoonTimePicker(true)}>
+                                <Icon name="clock" size={20} color="gray" style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <TextInput
+                                placeholder='Saati'
+                                placeholderTextColor={colors.text}
+                                keyboardType='number-pad'
+                                value={selectedAfternoonTime}
+                                style={{
+                                    flex: 1,
+                                    color: colors.text
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    {showAfternoonTimePicker && (
+                        <DateTimePicker
+                            testID="dateTimePickerAfternoonTime"
+                            value={time}
+                            mode="time"
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChangeAfternoonTime}
+                        />
+                    )}
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: '400',
+                            marginVertical: 8,
+                            color: colors.text
+                        }}>Ay Saati</Text>
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: colors.text,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22,
+                            flexDirection: 'row'
+                        }}>
+                            <TouchableOpacity onPress={() => setShowMoonTimePicker(true)}>
+                                <Icon name="clock" size={20} color="gray" style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <TextInput
+                                placeholder='Saati'
+                                placeholderTextColor={colors.text}
+                                keyboardType='number-pad'
+                                value={selectedMoonTime}
+                                style={{
+                                    flex: 1,
+                                    color: colors.text
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    {showMoonTimePicker && (
+                        <DateTimePicker
+                            testID="dateTimePickerMoonTime"
+                            value={time}
+                            mode="time"
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChangeMoonTime}
+                        />
+                    )}
+
+
                 <Button
                   title="İlacı Kaydet"
                   loading={false}
@@ -283,6 +573,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                     marginTop: 10,
                   }}
                 />
+                <View style={{padding:30}}></View>
             </View>
             </ScrollView>
             <FooterCompanion/>
