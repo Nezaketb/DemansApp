@@ -1,5 +1,6 @@
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity,ScrollView} from 'react-native'
+import { View, Text, Pressable, TextInput, TouchableOpacity,ScrollView} from 'react-native'
 import React, { useState,useEffect } from 'react'
+import CheckBox from '@react-native-community/checkbox';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from '@react-navigation/native';
@@ -15,10 +16,10 @@ const AddMedicinesDetail = ({ route, navigation }) => {
     const [usagePurpose, setUsagePurpose] = useState('');
     const [endDate, setEndDate] = useState('');
     const [startDate, setStartDate] = useState('');
-    const [afternoon, setAfternoon] = useState('');
-    const [evening, setEvening] = useState('');
-    const [moon, setMoon] = useState('');
-    const [night, setNight] = useState('');
+    const [afternoon, setAfternoon] = useState(false);
+    const [evening, setEvening] = useState(false);
+    const [moon, setMoon] = useState(false);
+    const [night, setNight] = useState(false);
     const [moonTime, setMoonTime] = useState('');
     const [afternoonTime, setAfternoonTime] = useState('');
     const [eveningTime, setEveningTime] = useState('');
@@ -34,14 +35,14 @@ const AddMedicinesDetail = ({ route, navigation }) => {
     const [userId, setUserId] = useState('');
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(new Date());
-    const [showDate, setShowDate] = useState(false);
-    const [showTime, setShowTime] = useState(false);    
-    const [selectedDate, setSelectedDate] = useState('');
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+
+    const [selectedStartDate, setSelectedStartDate] = useState('');
+    const [selectedEndDate, setSelectedEndDate] = useState('');
     
  
-     const openStartDatePicker = () => {
+  const openStartDatePicker = () => {
     setShowStartDatePicker(true);
   };
 
@@ -51,14 +52,17 @@ const AddMedicinesDetail = ({ route, navigation }) => {
 
   const updateSelectedDate = (selectedDate, dateType) => {
     const formattedDate = selectedDate.toLocaleDateString();
-    setSelectedDate(formattedDate);
-
     if (dateType === 'start') {
       setShowStartDatePicker(false);
+      setSelectedStartDate(formattedDate);
+      setStartDate(selectedDate);
     } else if (dateType === 'end') {
       setShowEndDatePicker(false);
+      setSelectedEndDate(formattedDate);
+      setEndDate(selectedDate);
     }
   };
+  
 
   const onChangeStartDate = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -75,11 +79,11 @@ const AddMedicinesDetail = ({ route, navigation }) => {
     updateSelectedDate(currentDate, 'end');
     setEndDate(currentDate);
   };
-      const onChangeAfternoonTime = (event, selectedTime) => {
-        const currentTime = selectedTime || time;
-        setShowAfternoonTimePicker(Platform.OS === 'ios');
-        setTime(currentTime);
-        updateSelectedTime(currentTime, 'afternoon');
+  const onChangeAfternoonTime = (event, selectedTime) => {
+    const currentTime = selectedTime || time;
+    setShowAfternoonTimePicker(Platform.OS === 'ios');
+    setTime(currentTime);
+    updateSelectedTime(currentTime, 'afternoon');
     };
 
     const onChangeEveningTime = (event, selectedTime) => {
@@ -90,37 +94,39 @@ const AddMedicinesDetail = ({ route, navigation }) => {
     };
 
     const onChangeNightTime = (event, selectedTime) => {
-        const currentTime = selectedTime || time;
-        setShowNightTimePicker(Platform.OS === 'ios');
-        setTime(currentTime);
-        updateSelectedTime(currentTime, 'night');
+    const currentTime = selectedTime || time;
+    setShowNightTimePicker(Platform.OS === 'ios');
+    setTime(currentTime);
+    updateSelectedTime(currentTime, 'night');
     };
 
     const onChangeMoonTime = (event, selectedTime) => {
-        const currentTime = selectedTime || time;
-        setShowMoonTimePicker(Platform.OS === 'ios');
-        setTime(currentTime);
-        updateSelectedTime(currentTime, 'moon');
+      const currentTime = selectedTime || time;
+      setShowMoonTimePicker(Platform.OS === 'ios');
+      setTime(currentTime);
+      updateSelectedTime(currentTime, 'moon');
     };
 
     const updateSelectedTime = (selectedTime, timeType) => {
-        const formattedTime = selectedTime.toLocaleTimeString();
-        switch (timeType) {
+      const hours = selectedTime.getHours().toString().padStart(2, '0');
+      const minutes = selectedTime.getMinutes().toString().padStart(2, '0');
+      const formattedTime = `${hours}:${minutes}`;      
+      switch (timeType) {
             case 'afternoon':
                 setSelectedAfternoonTime(formattedTime);
-                setAfternoonTime(selectedTime);
+                setAfternoonTime(formattedTime);
                 break;
             case 'evening':
                 setSelectedEveningTime(formattedTime);
-                setEveningTime(selectedTime);
+                setEveningTime(formattedTime);
                 break;
             case 'night':
                 setSelectedNightTime(formattedTime);
-                setNightTime(selectedTime);
+                setNightTime(formattedTime);
                 break;
             case 'moon':
                 setSelectedMoonTime(formattedTime);
-                setMoonTime(selectedTime);
+                setMoonTime(formattedTime);
                 break;
             default:
                 break;
@@ -132,7 +138,23 @@ const AddMedicinesDetail = ({ route, navigation }) => {
     const handleAddMedicines = async () => {
         try {
           await addMedicines(name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId);
-          console.log("data")
+          console.log("data");
+          console.log('Data to be sent:', {
+            name,
+            usageDuration,
+            usagePurpose,
+            startDate,
+            endDate,
+            afternoon,
+            evening,
+            moon,
+            moonTime,
+            afternoonTime,
+            eveningTime,
+            night,
+            nightTime,
+            userId,
+          });
         } catch (error) {
           console.error('Error in AddMedicines:', error);
         }
@@ -304,7 +326,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                 placeholder="Tarih"
                 placeholderTextColor={colors.text}
                 keyboardType="number-pad"
-                value={selectedDate}
+                value={selectedStartDate}
                 style={{
                   flex: 1,
                   color: colors.text,
@@ -355,7 +377,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                 placeholder="Tarih"
                 placeholderTextColor={colors.text}
                 keyboardType="number-pad"
-                value={selectedDate}
+                value={selectedEndDate}
                 style={{
                   flex: 1,
                   color: colors.text,
@@ -375,8 +397,33 @@ const AddMedicinesDetail = ({ route, navigation }) => {
             />
           )}
 
+          <CheckBox
+        disabled={false}
+        value={afternoon}
+        onValueChange={(value) => setAfternoon(value)}
+      />
+      <Text>Afternoon</Text>
 
-                
+      <CheckBox
+        disabled={false}
+        value={evening}
+        onValueChange={(value) => setEvening(value)}
+      />
+      <Text>Evening</Text>
+
+      <CheckBox
+        disabled={false}
+        value={moon}
+        onValueChange={(value) => setMoon(value)}
+      />
+      <Text>Moon</Text>
+
+      <CheckBox
+        disabled={false}
+        value={night}
+        onValueChange={(value) => setNight(value)}
+      />
+      <Text>Night</Text>
                 <View style={{ marginBottom: 12 }}>
                         <Text style={{
                             fontSize: 16,
