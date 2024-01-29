@@ -85,6 +85,25 @@ export const addCompanion = async (adress,email,name,surname,phone, password,use
   }
 };
 
+export const addLocation = async (lat,lng,userId) => {
+  try {
+    const response = await axios.post(
+      `${apiBaseUrl}LocationInformations/addLocation`,
+      {
+        lat:lat,
+        lng:lng,
+        userId:userId
+      },
+    );
+    console.log('Konum kaydedildi:', response);
+    return true;
+  }
+  catch (error) {
+    console.error('Kayıt başarısız:', error.message);
+    throw error;
+  }
+};
+
 export const addPictures = async (text,url,userId) => {
   try {
     const response = await axios.post(
@@ -104,7 +123,7 @@ export const addPictures = async (text,url,userId) => {
   }
 };
 
-    export const addMedicines = async ( name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
+export const addMedicines = async ( name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
       try {
         const response = await axios.post(
           `${apiBaseUrl}Medicines/addMedicine`,
