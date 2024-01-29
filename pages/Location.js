@@ -1,67 +1,57 @@
 import { View, Text, StyleSheet, Button } from 'react-native';
-import React, { useState } from 'react';
-import Geolocation from 'react-native-geolocation-service';
+import React, { useState,useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { PermissionsAndroid, Platform } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getLocation } from '../api';
 import FooterCompanion from '../components/FooterCompanion';
 
 const Location = ({ navigation }) => {
+  const [userId, setUserId] = useState(null);
   const [location, setLocation] = useState(null);  
   const {colors}=useTheme();
   
-  const requestLocationPermission = async () => {
-    if (Platform.OS === 'android') {
+
+
+  const getlocation = async () => {
+    try {
+      const locationData = await getLocation(userId);
+      setLocation({
+        coords: {
+          latitude: locationData.data.lat, 
+          longitude: locationData.data.lng, 
+        },
+      });
+      console.log(locationData);
+    } catch (error) {
+      console.error('Get location error:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    const loadUserId = async () => {
       try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'Uygulama Konum İzni',
-            message: 'Bu uygulama konum iznine ihtiyaç duyuyor',
-            buttonNeutral: 'Daha Sonra Sor',
-            buttonNegative: 'İptal',
-            buttonPositive: 'Tamam',
-          }
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Konum izni verildi');
-          return true; // İzin verildiyse true döner
-        } else {
-          console.log('Konum izni reddedildi');
-          return false; // İzin reddedildiyse false döner
+        const storedUserId = await AsyncStorage.getItem('userId');
+        if (storedUserId) {
+          setUserId(parseInt(storedUserId, 10));
         }
-      } catch (err) {
-        console.warn(err);
-        return false; // Hata oluştuysa false döner
+      } catch (error) {
+        console.error('Get userId error:', error.message);
       }
-    }
-    return true; // Android dışındaki platformlarda true döner
-  };
+    };
 
-  const getLocation = async () => {
-    const permissionGranted = await requestLocationPermission();
+    loadUserId();
+  }, []);
 
-    if (permissionGranted) {
-      Geolocation.getCurrentPosition(
-        position => {
-          console.log(position);
-          setLocation(position);
-        },
-        error => {
-          console.log(error.code, error.message);
-          setLocation(null); // Hata durumunda location'ı null yap
-        },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-      );
-    } else {
-      console.log('Konum izni verilmedi');
+  useEffect(() => {
+    if (userId) {
+      getlocation();
     }
-  };
+  }, [userId]);
 
   return (
     <View style={styles.container}>
-      <Text>Hoş geldiniz!</Text>
-      {location && location.coords && ( // location ve location.coords var mı kontrolü
+      {location && location.coords && ( 
         <MapView
           style={styles.map}
           initialRegion={{
@@ -81,13 +71,6 @@ const Location = ({ navigation }) => {
           />
         </MapView>
       )}
-      <Button title="Konumu Al" onPress={getLocation} />
-      <Text style={{ color: colors.text }}>
-        Enlem: {location && location.coords ? location.coords.latitude : null}
-      </Text>
-      <Text style={{ color: colors.text }}>
-        Boylam: {location && location.coords ? location.coords.longitude : null}
-      </Text>
       <FooterCompanion/>
     </View>
   );

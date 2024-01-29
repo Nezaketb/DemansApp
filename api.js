@@ -186,6 +186,18 @@ export const getMedicines = async (userId) => {
   }
 };
 
+export const getLocation = async (userId) => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}LocationInformations/getLocation/${userId}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Get medicines error:', error.message);
+    throw error;
+  }
+};
+
+
 
 export const getCommands = async (userId) => {
   try {
