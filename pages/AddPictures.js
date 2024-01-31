@@ -3,6 +3,7 @@ import { View, Text, Image,TextInput, TouchableOpacity, StyleSheet } from 'react
 import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import ImgToBase64 from  'react-native-image-base64';
 import { addPictures } from '../api';
 import FooterCompanion from '../components/FooterCompanion';
 
@@ -10,61 +11,44 @@ const AddPictures = ({ navigation }) => {
   const [text, setText] = useState('');
   const [url, setUrl] = useState();
   const [userId, setUserId] = useState('');
-
-  const { colors } = useTheme();
-
   
   const pickImage = () => {
-    launchImageLibrary({ mediaType: 'photo' }, (response) => {
+    launchImageLibrary({ mediaType: 'photo' }, async (response) => {
       if (!response.didCancel) {
-        handleImagePick(response);
+        const selectedImage = response.assets ? response.assets[0] : response;
+        console.log("selected", selectedImage);
+  
+        if (selectedImage.uri) {
+          try {
+            const uri = selectedImage.uri.startsWith('file://') ? selectedImage.uri : `file://${selectedImage.uri}`;
+            const base64 = await ImgToBase64.getBase64String(uri);
+            console.log("base64", base64);
+            setUrl(`data:${selectedImage.type};base64,${base64}`);
+          } catch (error) {
+            console.error('Resim base64\'e dönüştürülürken hata:', error);
+          }
+        } else {
+          console.warn('Resim URI bulunamadı.');
+        }
+      } else {
+        console.warn('Resim seçimi iptal edildi.');
       }
     });
   };
+  
 
-  const handleImagePick = async (response) => {
+  const handleImagePick = async () => {
     try {
-      if (response && response.assets && response.assets.length > 0) {
-        const firstAsset = response.assets[0];
-        const fileName = firstAsset.fileName;
-
-        // Resmi göster
-        setUrl(firstAsset.uri);
-
-        // Resmi sunucuya yükle
-        await uploadImageToServer(firstAsset);
-
-        // Resim bilgisini kullanıcının profiline kaydet
-        await saveImageToUserProfile(fileName);
+      if (url && text && userId) {
+        await addPictures(text, url, userId);
+        console.log('Resim başarıyla kaydedildi.');
       } else {
-        console.warn('Invalid response format or no assets selected.');
+        console.warn('Lütfen bir resim seçin ve metin girin.');
       }
     } catch (error) {
-      console.error('Error in handleImagePick:', error);
+      console.error('Resim kaydetme hatası:', error.message);
     }
   };
-
-  const uploadImageToServer = async (image) => {
-    try {
-      const formData = new FormData();
-      formData.append('file', {
-        uri: image.uri,
-        type: image.type,
-        name: image.fileName,
-      });
-
-      await addPictures(text, image.fileName, userId);
-     
-    } catch (error) {
-      console.error('Error in uploadImageToServer:', error);
-    }
-  };
-
-  
- 
-  
-
-  
 
   useEffect(() => {
     const loadUserId = async () => {
@@ -86,7 +70,7 @@ const AddPictures = ({ navigation }) => {
       <Text style={styles.heading}>Resim Ekleme</Text>
       <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
         {url ? (
-          <Image source={{ uri: url.uri }} style={styles.image} />
+          <Image source={{ uri: url }} style={styles.image} />
         ) : (
           <Text style={styles.imagePlaceholder}>Resim Seç</Text>
         )}
@@ -96,7 +80,7 @@ const AddPictures = ({ navigation }) => {
         style={styles.input}
         placeholder="Metin"
         value={text}
-        onChangeText={(tex) => setText(tex)}
+        onChangeText={(text) => setText(text)}
       />
       <TouchableOpacity style={styles.button} onPress={handleImagePick}>
         <Text style={styles.buttonText}>Kaydet</Text>
