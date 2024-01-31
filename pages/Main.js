@@ -92,7 +92,7 @@ const Main = ({ navigation }) => {
         console.log("Konum bilgisi alınamadı:", error.code, error.message);
         setLocation(null);
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 10000 }
     );
   };
 

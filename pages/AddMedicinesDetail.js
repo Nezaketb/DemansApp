@@ -1,16 +1,18 @@
 import { View, Text, Pressable, TextInput, TouchableOpacity,ScrollView} from 'react-native'
 import React, { useState,useEffect } from 'react'
+import { useTheme } from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addMedicines} from '../api';
 import FooterCompanion from '../components/FooterCompanion';
+import Header from '../components/Header';
 
 const AddMedicinesDetail = ({ route, navigation }) => {
+    const { colors } = useTheme();
     const [name, setName] = useState('');
     const [usageDuration, setUsageduration] = useState('');
     const [usagePurpose, setUsagePurpose] = useState('');
@@ -133,7 +135,6 @@ const AddMedicinesDetail = ({ route, navigation }) => {
         }
     };
 
-    const { colors } = useTheme();
 
     const handleAddMedicines = async () => {
         try {
@@ -396,6 +397,58 @@ const AddMedicinesDetail = ({ route, navigation }) => {
               onChange={onChangeEndDate}
             />
           )}
+    
+        <Text style={{color:colors.primary}}>Moon</Text>
+        <CheckBox
+        disabled={false}
+        value={moon}
+        onValueChange={(value) => setMoon(value)}
+      />
+
+      <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: '400',
+                            marginVertical: 8,
+                            color: colors.text
+                        }}>Sabah Saati</Text>
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: colors.text,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 15,
+                            flexDirection: 'row'
+                        }}>
+                            <TouchableOpacity onPress={() => setShowMoonTimePicker(true)}>
+                                <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <TextInput
+                                placeholder='Saati'
+                                placeholderTextColor={colors.text}
+                                keyboardType='number-pad'
+                                value={selectedMoonTime}
+                                style={{
+                                    flex: 1,
+                                    color: colors.text
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    {showMoonTimePicker && (
+                        <DateTimePicker
+                            testID="dateTimePickerMoonTime"
+                            value={time}
+                            mode="time"
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChangeMoonTime}
+                        />
+                    )}
 
           <CheckBox
         disabled={false}
@@ -403,118 +456,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
         onValueChange={(value) => setAfternoon(value)}
       />
       <Text>Afternoon</Text>
-
-      <CheckBox
-        disabled={false}
-        value={evening}
-        onValueChange={(value) => setEvening(value)}
-      />
-      <Text>Evening</Text>
-
-      <CheckBox
-        disabled={false}
-        value={moon}
-        onValueChange={(value) => setMoon(value)}
-      />
-      <Text>Moon</Text>
-
-      <CheckBox
-        disabled={false}
-        value={night}
-        onValueChange={(value) => setNight(value)}
-      />
-      <Text>Night</Text>
-                <View style={{ marginBottom: 12 }}>
-                        <Text style={{
-                            fontSize: 16,
-                            fontWeight: '400',
-                            marginVertical: 8,
-                            color: colors.text
-                        }}>Akşam Saati</Text>
-                        <View style={{
-                            width: "100%",
-                            height: 48,
-                            borderColor: colors.text,
-                            borderWidth: 1,
-                            borderRadius: 8,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            paddingLeft: 22,
-                            flexDirection: 'row'
-                        }}>
-                            <TouchableOpacity onPress={() => setShowEveningTimePicker(true)}>
-                                <Icon name="clock" size={20} color="gray" style={{ marginRight: 10 }} />
-                            </TouchableOpacity>
-                            <TextInput
-                                placeholder='Saati'
-                                placeholderTextColor={colors.text}
-                                keyboardType='number-pad'
-                                value={selectedEveningTime}
-                                style={{
-                                    flex: 1,
-                                    color: colors.text
-                                }}
-                            />
-                        </View>
-                    </View>
-
-                    {showEveningTimePicker && (
-                        <DateTimePicker
-                            testID="dateTimePickerEveningTime"
-                            value={time}
-                            mode="time"
-                            is24Hour={true}
-                            display="default"
-                            onChange={onChangeEveningTime}
-                        />
-                    )}
-
-                    <View style={{ marginBottom: 12 }}>
-                        <Text style={{
-                            fontSize: 16,
-                            fontWeight: '400',
-                            marginVertical: 8,
-                            color: colors.text
-                        }}>Gece Saati</Text>
-                        <View style={{
-                            width: "100%",
-                            height: 48,
-                            borderColor: colors.text,
-                            borderWidth: 1,
-                            borderRadius: 8,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            paddingLeft: 22,
-                            flexDirection: 'row'
-                        }}>
-                            <TouchableOpacity onPress={() => setShowNightTimePicker(true)}>
-                                <Icon name="clock" size={20} color="gray" style={{ marginRight: 10 }} />
-                            </TouchableOpacity>
-                            <TextInput
-                                placeholder='Saati'
-                                placeholderTextColor={colors.text}
-                                keyboardType='number-pad'
-                                value={selectedNightTime}
-                                style={{
-                                    flex: 1,
-                                    color: colors.text
-                                }}
-                            />
-                        </View>
-                    </View>
-
-                    {showNightTimePicker && (
-                        <DateTimePicker
-                            testID="dateTimePickerNightTime"
-                            value={time}
-                            mode="time"
-                            is24Hour={true}
-                            display="default"
-                            onChange={onChangeNightTime}
-                        />
-                    )}
-
-                    <View style={{ marginBottom: 12 }}>
+      <View style={{ marginBottom: 12 }}>
                         <Text style={{
                             fontSize: 16,
                             fontWeight: '400',
@@ -529,11 +471,11 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                             borderRadius: 8,
                             alignItems: "center",
                             justifyContent: "center",
-                            paddingLeft: 22,
+                            paddingLeft: 15,
                             flexDirection: 'row'
                         }}>
                             <TouchableOpacity onPress={() => setShowAfternoonTimePicker(true)}>
-                                <Icon name="clock" size={20} color="gray" style={{ marginRight: 10 }} />
+                                <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
                             </TouchableOpacity>
                             <TextInput
                                 placeholder='Saati'
@@ -559,13 +501,19 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                         />
                     )}
 
-                    <View style={{ marginBottom: 12 }}>
+      <CheckBox
+        disabled={false}
+        value={evening}
+        onValueChange={(value) => setEvening(value)}
+      />
+      <Text>Evening</Text>
+      <View style={{ marginBottom: 12 }}>
                         <Text style={{
                             fontSize: 16,
                             fontWeight: '400',
                             marginVertical: 8,
                             color: colors.text
-                        }}>Ay Saati</Text>
+                        }}>Akşam Saati</Text>
                         <View style={{
                             width: "100%",
                             height: 48,
@@ -574,17 +522,17 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                             borderRadius: 8,
                             alignItems: "center",
                             justifyContent: "center",
-                            paddingLeft: 22,
+                            paddingLeft: 15,
                             flexDirection: 'row'
                         }}>
-                            <TouchableOpacity onPress={() => setShowMoonTimePicker(true)}>
-                                <Icon name="clock" size={20} color="gray" style={{ marginRight: 10 }} />
+                            <TouchableOpacity onPress={() => setShowEveningTimePicker(true)}>
+                                <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
                             </TouchableOpacity>
                             <TextInput
                                 placeholder='Saati'
                                 placeholderTextColor={colors.text}
                                 keyboardType='number-pad'
-                                value={selectedMoonTime}
+                                value={selectedEveningTime}
                                 style={{
                                     flex: 1,
                                     color: colors.text
@@ -593,16 +541,74 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                         </View>
                     </View>
 
-                    {showMoonTimePicker && (
+                    {showEveningTimePicker && (
                         <DateTimePicker
-                            testID="dateTimePickerMoonTime"
+                            testID="dateTimePickerEveningTime"
                             value={time}
                             mode="time"
                             is24Hour={true}
                             display="default"
-                            onChange={onChangeMoonTime}
+                            onChange={onChangeEveningTime}
                         />
                     )}
+     
+      <CheckBox
+        disabled={false}
+        value={night}
+        onTintColor='#FF9900'
+        onCheckColor='#FF9900'
+        onValueChange={(value) => setNight(value)}
+      />
+      <Text>Night</Text>
+
+       <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: '400',
+                            marginVertical: 8,
+                            color: colors.text
+                        }}>Gece Saati</Text>
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: colors.text,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 15,
+                            flexDirection: 'row'
+                        }}>
+                            <TouchableOpacity onPress={() => setShowNightTimePicker(true)}>
+                                <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <TextInput
+                                placeholder='Saati'
+                                placeholderTextColor={colors.text}
+                                keyboardType='number-pad'
+                                value={selectedNightTime}
+                                style={{
+                                    flex: 1,
+                                    color: colors.text
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    {showNightTimePicker && (
+                        <DateTimePicker
+                            testID="dateTimePickerNightTime"
+                            value={time}
+                            mode="time"
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChangeNightTime}
+                        />
+                    )}             
+
+                
+
+                   
 
 
                 <Button

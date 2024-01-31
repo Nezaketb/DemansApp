@@ -55,16 +55,16 @@ const Location = ({ navigation }) => {
         <MapView
           style={styles.map}
           initialRegion={{
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitude: location.coords.longitude,
+            longitude: location.coords.latitude,
+            latitudeDelta: 0.002,
+            longitudeDelta: 0.001,
           }}
         >
           <Marker
             coordinate={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
+              latitude: location.coords.longitude,
+              longitude: location.coords.latitude,
             }}
             title="Konumunuz"
             description="Buradasınız"
