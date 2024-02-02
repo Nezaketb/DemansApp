@@ -85,6 +85,7 @@ export const addCompanion = async (adress,email,name,surname,phone, password,use
   }
 };
 
+
 export const addLocation = async (lat,lng,userId) => {
   try {
     const response = await axios.post(
@@ -104,24 +105,33 @@ export const addLocation = async (lat,lng,userId) => {
   }
 };
 
-export const addPictures = async (text,url,userId) => {
+export const addPictures = async (text, url, userId) => {
   try {
-    const response = await axios.post(
-      `${apiBaseUrl}Pictures/addPictures`,
-      {
-        text:text,
-        url:url,
-        userId:userId
+    const formData = new FormData();
+
+    formData.append('file', {
+      uri: url,
+      type: 'image/jpeg',
+      name: 'image.jpg',
+    });
+
+    formData.append('text', text);
+    formData.append('userId', userId.toString()); 
+
+    const response = await axios.post(`${apiBaseUrl}Pictures/addPictures`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
       },
-    );
-    console.error('Kayıt başarılı:', response);
+    });
+
+    console.log('Kayıt başarılı:', response.data);
     return true;
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Kayıt başarısız:', error.message);
     throw error;
   }
 };
+
 
 export const addMedicines = async ( name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
       try {

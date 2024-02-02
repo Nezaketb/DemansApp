@@ -15,12 +15,18 @@ const Carousel = () => {
   const fetchPictures = async () => {
     try {
       const picturesData = await getPictures(userId);
-      setPictures(picturesData.data);
-      console.log(picturesData);
+      const baseUrl = "http://192.168.1.147:5023/uploads/"; 
+      const picturesWithFullUrl = picturesData.data.map((item) => ({
+        ...item,
+        url: baseUrl + item.url,
+      }));
+      setPictures(picturesWithFullUrl);
+      console.log(picturesWithFullUrl);
     } catch (error) {
       console.error('Get pictures error:', error.message);
     }
   };
+  
 
   useEffect(() => {
     const loadUserId = async () => {
@@ -102,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: Dimensions.get("window").width,
-    height: 200,
+    height: 300,
   },
   image: {
     width: '100%',
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    bottom:60
+    bottom:20
   },
   indicator: {
     width: 10,

@@ -4,9 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { RegisterUser } from '../api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RegisterUser, addCommands } from '../api';
 
 const Register = ({ navigation }) => {
+    const [userId, setUserId] = useState('');
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [email, setEmail] = useState('');
@@ -22,7 +24,10 @@ const Register = ({ navigation }) => {
     
           if (success) {
             //Alert.alert('Başarılı', 'Kayıt işlemi başarıyla tamamlandı.');
-            navigation.navigate('Main');
+            //  await loadUserId();
+            // handleAddCommands();
+            navigation.navigate('AddCompanion');
+            //BURAYA EKLEEEE
           } else {
             //Alert.alert('Hata', 'Kayıt işlemi sırasında bir hata oluştu.');
           }
@@ -31,7 +36,28 @@ const Register = ({ navigation }) => {
           console.error('Register error:', error.message);
         }
       };
-    
+
+      const loadUserId = async () => {
+        try {
+          const storedUserId = await AsyncStorage.getItem('userId');
+          console.log('Stored userId:', storedUserId);
+          if (storedUserId) {
+            setUserId(parseInt(storedUserId, 10));
+          }
+        } catch (error) {
+          console.error('Get userId error:', error.message);
+        }
+      };
+      
+
+      const handleAddCommands = async () => {
+        try {
+          await addCommands(userId);
+        } catch (error) {
+          console.error('Error in AddComands:', error);
+        }
+      };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -166,11 +192,11 @@ const Register = ({ navigation }) => {
                         alignItems: "center",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        paddingLeft: 22
+                        paddingLeft: 5
                     }}>
                         <Icon name="phone" size={20} color="gray" style={{ marginRight: 10 }} />
                         <TextInput
-                            placeholder='+91'
+                            placeholder='+90'
                             placeholderTextColor={colors.text}
                             keyboardType='numeric'
                             style={{
@@ -275,49 +301,6 @@ const Register = ({ navigation }) => {
                   }}
                 />
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
-                    <View
-                        style={{
-                            flex: 1,
-                            height: 1,
-                            backgroundColor: colors.text,
-                            marginHorizontal: 10
-                        }}
-                    />
-                    <Text style={{ fontSize: 14,color:colors.text}}>Google hasabınız ile kaydolun</Text>
-                    <View
-                        style={{
-                            flex: 1,
-                            height: 1,
-                            backgroundColor: colors.text,
-                            marginHorizontal: 10
-                        }}
-                    />
-                </View>
-
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center'
-                }}>
-                    <TouchableOpacity
-                        onPress={() => console.log("Pressed")}
-                        style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'row',
-                            height: 52,
-                            borderWidth: 1,
-                            borderColor: colors.gray,
-                            marginRight: 4,
-                            borderRadius: 10,
-                            padding:5
-                        }}
-                    >
-
-                    <Text style={{color:colors.text}}>Google</Text>
-                    </TouchableOpacity>
-                </View>
-
                 <View style={{
                     flexDirection: "row",
                     justifyContent: "center",
@@ -342,3 +325,4 @@ const Register = ({ navigation }) => {
 }
 
 export default Register;
+

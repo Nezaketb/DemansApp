@@ -2,41 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image,TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {launchImageLibrary} from 'react-native-image-picker';
-import ImgToBase64 from  'react-native-image-base64';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { addPictures } from '../api';
 import FooterCompanion from '../components/FooterCompanion';
+
+const options ={
+  title:'Select Image',
+  type:'library',
+  options:{
+  maxWidth:'200',
+  maxHeight:'200',
+  selectionLimit:1,
+  mediaType:'photo',
+  includeBase64:false
+  }
+}
 
 const AddPictures = ({ navigation }) => {
   const [text, setText] = useState('');
   const [url, setUrl] = useState();
   const [userId, setUserId] = useState('');
   
-  const pickImage = () => {
-    launchImageLibrary({ mediaType: 'photo' }, async (response) => {
-      if (!response.didCancel) {
-        const selectedImage = response.assets ? response.assets[0] : response;
-        console.log("selected", selectedImage);
-  
-        if (selectedImage.uri) {
-          try {
-            const uri = selectedImage.uri.startsWith('file://') ? selectedImage.uri : `file://${selectedImage.uri}`;
-            const base64 = await ImgToBase64.getBase64String(uri);
-            console.log("base64", base64);
-            setUrl(`data:${selectedImage.type};base64,${base64}`);
-          } catch (error) {
-            console.error('Resim base64\'e dönüştürülürken hata:', error);
-          }
-        } else {
-          console.warn('Resim URI bulunamadı.');
-        }
-      } else {
-        console.warn('Resim seçimi iptal edildi.');
-      }
-    });
-  };
-  
+  const openGallery = async () => {
+    const images = await launchImageLibrary(options);
+    console.log(images.assets[0]);
+    setUrl(images.assets[0]?.uri); // Seçilen resmin URL'sini setUrl ile güncelle
+  }
 
+  // handleImagePick fonksiyonu düzenlendi ve addPictures çağrıldı
   const handleImagePick = async () => {
     try {
       if (url && text && userId) {
@@ -50,6 +43,7 @@ const AddPictures = ({ navigation }) => {
     }
   };
 
+  // useEffect içinde AsyncStorage ile userId'i set etme işlemi düzenlendi
   useEffect(() => {
     const loadUserId = async () => {
       try {
@@ -68,7 +62,7 @@ const AddPictures = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Resim Ekleme</Text>
-      <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+      <TouchableOpacity onPress={openGallery} style={styles.imageContainer}>
         {url ? (
           <Image source={{ uri: url }} style={styles.image} />
         ) : (
@@ -85,7 +79,6 @@ const AddPictures = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleImagePick}>
         <Text style={styles.buttonText}>Kaydet</Text>
       </TouchableOpacity>
-      <FooterCompanion/>
     </View>
   );
 };

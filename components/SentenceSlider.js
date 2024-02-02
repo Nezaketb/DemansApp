@@ -60,7 +60,7 @@ const SentenceSlider = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top:-100
+    top:-70
   },
   slide: {
     flex: 1,

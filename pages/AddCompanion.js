@@ -23,6 +23,7 @@ const AddCompanion = ({ navigation }) => {
     const handleAddCompanion = async () => {
         try {
           await addCompanion(adress, email, name, surname, phone, password, userId);
+          navigation.navigate('Main');
         } catch (error) {
           console.error('Error in AddCompanion:', error);
         }

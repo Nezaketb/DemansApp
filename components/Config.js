@@ -1,7 +1,7 @@
 const config = {
     dark: false,
     colors: {
-      primary: '#FF9900',
+      primary: '#f07c56',
       secondary:'rgb(255,237,0)',
       background: '#FFFF',
       grid: '#eaeef3',

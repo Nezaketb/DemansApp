@@ -115,21 +115,6 @@ const LoginCompanion = ({ navigation }) => {
                         />
                     </View>
                 </View>
-
-                <View style={{
-                    flexDirection: 'row',
-                    marginVertical: 6
-                }}>
-                    {/* <Checkbox
-                        style={{ marginRight: 8 }}
-                        value={isChecked}
-                        onValueChange={setIsChecked}
-                        color={isChecked ? colors.primary : undefined}
-                    /> */}
-
-                    <Text style={{color:colors.text}}>Beni Hatırla</Text>
-                </View>
-
                 <Button
                   title="Giriş Yap"
                   loading={false}

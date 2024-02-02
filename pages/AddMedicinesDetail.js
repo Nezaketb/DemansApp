@@ -411,7 +411,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                             fontWeight: '400',
                             marginVertical: 8,
                             color: colors.text
-                        }}>Sabah Saati</Text>
+                        }}>Sabah</Text>
                         <View style={{
                             width: "100%",
                             height: 48,
@@ -450,12 +450,12 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                         />
                     )}
 
+        <Text style={{color:colors.primary}}>Öğlen</Text>
           <CheckBox
         disabled={false}
         value={afternoon}
         onValueChange={(value) => setAfternoon(value)}
       />
-      <Text>Afternoon</Text>
       <View style={{ marginBottom: 12 }}>
                         <Text style={{
                             fontSize: 16,
@@ -501,12 +501,12 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                         />
                     )}
 
-      <CheckBox
+        <Text style={{color:colors.primary}}>Akşam</Text>
+        <CheckBox
         disabled={false}
         value={evening}
         onValueChange={(value) => setEvening(value)}
       />
-      <Text>Evening</Text>
       <View style={{ marginBottom: 12 }}>
                         <Text style={{
                             fontSize: 16,
@@ -559,7 +559,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
         onCheckColor='#FF9900'
         onValueChange={(value) => setNight(value)}
       />
-      <Text>Night</Text>
+      <Text style={{color:colors.primary}}>Gece</Text>
 
        <View style={{ marginBottom: 12 }}>
                         <Text style={{
@@ -567,7 +567,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                             fontWeight: '400',
                             marginVertical: 8,
                             color: colors.text
-                        }}>Gece Saati</Text>
+                        }}>Gece</Text>
                         <View style={{
                             width: "100%",
                             height: 48,
@@ -605,11 +605,6 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                             onChange={onChangeNightTime}
                         />
                     )}             
-
-                
-
-                   
-
 
                 <Button
                   title="İlacı Kaydet"
