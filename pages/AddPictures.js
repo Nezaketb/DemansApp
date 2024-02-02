@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image,TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import { Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { addPictures } from '../api';
@@ -22,14 +23,14 @@ const AddPictures = ({ navigation }) => {
   const [text, setText] = useState('');
   const [url, setUrl] = useState();
   const [userId, setUserId] = useState('');
+  const { colors } = useTheme();
   
   const openGallery = async () => {
     const images = await launchImageLibrary(options);
     console.log(images.assets[0]);
-    setUrl(images.assets[0]?.uri); // Seçilen resmin URL'sini setUrl ile güncelle
+    setUrl(images.assets[0]?.uri); 
   }
 
-  // handleImagePick fonksiyonu düzenlendi ve addPictures çağrıldı
   const handleImagePick = async () => {
     try {
       if (url && text && userId) {
@@ -43,7 +44,6 @@ const AddPictures = ({ navigation }) => {
     }
   };
 
-  // useEffect içinde AsyncStorage ile userId'i set etme işlemi düzenlendi
   useEffect(() => {
     const loadUserId = async () => {
       try {
@@ -61,7 +61,7 @@ const AddPictures = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Resim Ekleme</Text>
+      <Text style={{color:colors.primary, fontSize:30,padding:10}}>Resmi ekleyin</Text>
       <TouchableOpacity onPress={openGallery} style={styles.imageContainer}>
         {url ? (
           <Image source={{ uri: url }} style={styles.image} />
@@ -76,9 +76,22 @@ const AddPictures = ({ navigation }) => {
         value={text}
         onChangeText={(text) => setText(text)}
       />
-      <TouchableOpacity style={styles.button} onPress={handleImagePick}>
-        <Text style={styles.buttonText}>Kaydet</Text>
-      </TouchableOpacity>
+      <Button
+                  title="Resmi kaydet"
+                  loading={false}
+                  onPress={handleImagePick}
+                  buttonStyle={{
+                    backgroundColor: colors.primary,
+                    borderRadius: 10,
+                  }}
+                  titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
+                  containerStyle={{
+                    height: 50,
+                    marginHorizontal: 10,
+                    marginTop: 10,
+                  }}
+                />
+                <FooterCompanion/>
     </View>
   );
 };
