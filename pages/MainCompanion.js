@@ -80,7 +80,7 @@ const MainCompanion = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 10,
     backgroundColor: 'white',
   },
   header: {

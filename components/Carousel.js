@@ -15,7 +15,7 @@ const Carousel = () => {
   const fetchPictures = async () => {
     try {
       const picturesData = await getPictures(userId);
-      const baseUrl = "http://192.168.1.147:5023/uploads/"; 
+      const baseUrl = "http://172.20.10.2:5023/uploads/"; 
       const picturesWithFullUrl = picturesData.data.map((item) => ({
         ...item,
         url: baseUrl + item.url,
@@ -51,35 +51,56 @@ const Carousel = () => {
 
   useEffect(() => {
     const scrollInterval = setInterval(() => {
-      if (currentIndex < pictures.length - 1) {
-        setCurrentIndex((prevIndex) => prevIndex + 1);
-      } else {
-        setCurrentIndex(0);
+      if (pictures.length > 0) {
+        if (currentIndex < pictures.length - 1) {
+          setCurrentIndex((prevIndex) => prevIndex + 1);
+        } else {
+          setCurrentIndex(0);
+        }
+  
+        if (flatListRef.current) {
+          flatListRef.current.scrollToIndex({
+            index: currentIndex < pictures.length ? currentIndex : 0,
+            animated: true,
+          });
+        }
       }
-      flatListRef.current?.scrollToIndex({ index: currentIndex, animated: true });
-    }, 3000); 
-
+    }, 3000);
+  
     return () => clearInterval(scrollInterval);
   }, [currentIndex, pictures.length]);
+  
+  
 
   const renderImageItem = ({ item }) => (
     <View style={styles.slide}>
-      <Image source={{ uri: item.url }} style={styles.image} />
-      <Text style={styles.text}>{item.text}</Text>
+      {pictures.length > 0 ? (
+        <>
+          <Image source={{ uri: item.url }} style={styles.image} />
+          <Text style={styles.text}>{item.text}</Text>
+        </>
+      ) : (
+        <Text style={styles.text}>Henüz resim bulunmamaktadır.</Text>
+      )}
     </View>
   );
 
+
   const renderIndicator = () => (
     <View style={styles.indicatorContainer}>
-      {pictures.map((_, index) => (
-        <View
-          key={index}
-          style={[
-            styles.indicator,
-            { backgroundColor: index === currentIndex ? 'orange' : 'gray' },
-          ]}
-        />
-      ))}
+      {pictures.length > 0 ? (
+        pictures.map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.indicator,
+              { backgroundColor: index === currentIndex ? 'orange' : 'gray' },
+            ]}
+          />
+        ))
+      ) : (
+        <Text style={styles.text}>Henüz resim bulunmamaktadır.</Text>
+      )}
     </View>
   );
 
@@ -126,7 +147,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    bottom:20
   },
   indicator: {
     width: 10,

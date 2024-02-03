@@ -28,22 +28,22 @@ const AddCompanion = ({ navigation }) => {
           console.error('Error in AddCompanion:', error);
         }
       };
-      
-      useEffect(() => {
-        const loadUserId = async () => {
-          try {
-            const storedUserId = await AsyncStorage.getItem('userId');
-            if (storedUserId) {
-              setUserId(parseInt(storedUserId, 10));
-            }
-          } catch (error) {
-            console.error('Get userId error:', error.message);
-          }
-        };
     
+      const loadUserId = async () => {
+        try {
+          const storedUserId = await AsyncStorage.getItem('userId');
+          if (storedUserId) {
+            setUserId(parseInt(storedUserId, 10));
+          }
+        } catch (error) {
+          console.error('Get userId error:', error.message);
+        }
+      };
+    
+      useEffect(() => {
+        // Komponent yüklendiğinde userId değerini yükle
         loadUserId();
       }, []);
-      
       
       
     return (

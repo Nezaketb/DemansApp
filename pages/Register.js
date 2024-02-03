@@ -23,40 +23,14 @@ const Register = ({ navigation }) => {
           const success = await RegisterUser(email, userName, surname, phone, password);
     
           if (success) {
-            //Alert.alert('Başarılı', 'Kayıt işlemi başarıyla tamamlandı.');
-            //  await loadUserId();
-            // handleAddCommands();
-            navigation.navigate('AddCompanion');
-            //BURAYA EKLEEEE
+          navigation.navigate('Login');
           } else {
-            //Alert.alert('Hata', 'Kayıt işlemi sırasında bir hata oluştu.');
           }
         } catch (error) {
-          //Alert.alert('Hata', 'Kayıt işlemi sırasında bir hata oluştu.');
           console.error('Register error:', error.message);
         }
       };
 
-      const loadUserId = async () => {
-        try {
-          const storedUserId = await AsyncStorage.getItem('userId');
-          console.log('Stored userId:', storedUserId);
-          if (storedUserId) {
-            setUserId(parseInt(storedUserId, 10));
-          }
-        } catch (error) {
-          console.error('Get userId error:', error.message);
-        }
-      };
-      
-
-      const handleAddCommands = async () => {
-        try {
-          await addCommands(userId);
-        } catch (error) {
-          console.error('Error in AddComands:', error);
-        }
-      };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
