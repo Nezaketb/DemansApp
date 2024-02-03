@@ -12,7 +12,7 @@ const FooterCompanion = () => {
     navigation.navigate('MainCompanion');
   };
 
-  const navigateToUserProfie = () => {
+  const navigateToAddMedicine = () => {
     navigation.navigate('AddMedicinesDetail');
   };
 
@@ -26,6 +26,10 @@ const FooterCompanion = () => {
 
   const navigateToLocation = () => {
     navigation.navigate('Location');
+  };
+
+  const navigateToProfile = () => {
+    navigation.navigate('CompanionProfile');
   };
 
   return (
@@ -42,8 +46,11 @@ const FooterCompanion = () => {
       <TouchableOpacity style={styles.tab} onPress={navigateToPicture}>
        <Icon name="image" style={{color:colors.primary}} size={30} />
       </TouchableOpacity> 
-      <TouchableOpacity style={styles.tab} onPress={navigateToUserProfie}>
+      <TouchableOpacity style={styles.tab} onPress={navigateToAddMedicine}>
         <Icon name="plus" style={{color:colors.primary}} size={30} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.tab} onPress={navigateToProfile}>
+        <Icon name="user" style={{color:colors.primary}} size={30} />
       </TouchableOpacity>
     </View>
   );

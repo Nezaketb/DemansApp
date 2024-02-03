@@ -20,7 +20,7 @@ const Register = ({ navigation }) => {
 
     const handleRegister = async () => {
         try {
-          const success = await RegisterUser(email, userName, surname, phone, password);
+          const success = await RegisterUser(email, userName, surname, password,phone);
     
           if (success) {
           navigation.navigate('Login');

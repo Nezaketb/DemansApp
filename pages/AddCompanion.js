@@ -5,7 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { addCompanion} from '../api';
+import { addCompanion,addCommands} from '../api';
 
 const AddCompanion = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -28,6 +28,15 @@ const AddCompanion = ({ navigation }) => {
           console.error('Error in AddCompanion:', error);
         }
       };
+
+    //   const handleAddCommands = async () => {
+    //     try {
+    //       await addCompanion(userId);
+    //       console.log("command eklendi.")       
+    //      } catch (error) {
+    //       console.error('Error in AddCompanion:', error);
+    //     }
+    //   };
     
       const loadUserId = async () => {
         try {
@@ -41,7 +50,6 @@ const AddCompanion = ({ navigation }) => {
       };
     
       useEffect(() => {
-        // Komponent yüklendiğinde userId değerini yükle
         loadUserId();
       }, []);
       

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const apiBaseUrl = 'http://172.20.10.2:5023/api/'; 
+const apiBaseUrl = 'http://192.168.1.147:5023/api/'; 
 
 export const LoginUser = async (email, password) => {
   try {
@@ -132,6 +132,17 @@ export const addPictures = async (text, url, userId) => {
   }
 };
 
+export const addCommands = async (userId) => {
+  try {
+    const response = await axios.post(`${apiBaseUrl}Commands/addCommand/${userId}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Add command error:', error.message);
+    throw error;
+  }
+};
+
 
 export const addMedicines = async ( name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId) => {
       try {
@@ -199,19 +210,6 @@ export const getMedicines = async (userId) => {
 export const getLocation = async (userId) => {
   try {
     const response = await axios.get(`${apiBaseUrl}LocationInformations/getLocation/${userId}`);
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.error('Get medicines error:', error.message);
-    throw error;
-  }
-};
-
-
-
-export const getCommands = async (userId) => {
-  try {
-    const response = await axios.get(`${apiBaseUrl}Commands/getCommand/${userId}`);
     console.log(response);
     return response.data;
   } catch (error) {
