@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image,TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image,TextInput, TouchableOpacity, StyleSheet,Alert } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -36,13 +36,18 @@ const AddPictures = ({ navigation }) => {
       if (url && text && userId) {
         await addPictures(text, url, userId);
         console.log('Resim başarıyla kaydedildi.');
+        setUrl(null);
+        setText('');
+        Alert.alert('Başarılı', 'Resim başarıyla kaydedildi.');
       } else {
         console.warn('Lütfen bir resim seçin ve metin girin.');
+        Alert.alert('Hata','Lütfen bir resim seçin ve metin girin.');
       }
     } catch (error) {
       console.error('Resim kaydetme hatası:', error.message);
     }
   };
+
 
   useEffect(() => {
     const loadUserId = async () => {

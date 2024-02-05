@@ -1,4 +1,4 @@
-import { View, Text, Pressable, TextInput, TouchableOpacity,ScrollView} from 'react-native'
+import { View, Text, Pressable, TextInput, TouchableOpacity,ScrollView,Alert} from 'react-native'
 import React, { useState,useEffect } from 'react'
 import { useTheme } from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addMedicines} from '../api';
 import FooterCompanion from '../components/FooterCompanion';
-import Header from '../components/Header';
 
 const AddMedicinesDetail = ({ route, navigation }) => {
     const { colors } = useTheme();
@@ -140,6 +139,7 @@ const AddMedicinesDetail = ({ route, navigation }) => {
         try {
           await addMedicines(name,  usageDuration, usagePurpose,startDate,  endDate, afternoon, evening, moon, moonTime,  afternoonTime, eveningTime,night, nightTime, userId);
           console.log("data");
+          Alert.alert('Başarılı', 'İlaç başarıyla kaydedildi.');
           console.log('Data to be sent:', {
             name,
             usageDuration,
@@ -397,49 +397,53 @@ const AddMedicinesDetail = ({ route, navigation }) => {
               onChange={onChangeEndDate}
             />
           )}
-    
-        <Text style={{color:colors.primary}}>Moon</Text>
-        <CheckBox
+
+  <Text style={{ fontSize: 16,
+                  fontWeight: '400',
+                  marginVertical: 8,
+                  color: colors.text}}>Sabah</Text>
+     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+     <View style={{
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.text,
+    padding: 5,
+    }}>
+      <CheckBox
         disabled={false}
         value={moon}
         onValueChange={(value) => setMoon(value)}
       />
+      </View>
+        <View style={{
+          marginLeft: 8,
+          width: "83%",
+          height: 48,
+          borderColor: colors.text,
+          borderWidth: 1,
+          borderRadius: 8,
+          alignItems: "center",
+          justifyContent: "center",
+          paddingLeft: 15,
+          flexDirection: 'row'
+        }}>
+          <TouchableOpacity onPress={() => setShowMoonTimePicker(true)}>
+            <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
+          </TouchableOpacity>
+          <TextInput
+            placeholder='Saati'
+            placeholderTextColor={colors.text}
+            keyboardType='number-pad'
+            value={selectedMoonTime}
+            style={{
+              flex: 1,
+              color: colors.text
+            }}
+          />
+        </View>
+      </View>
 
-      <View style={{ marginBottom: 12 }}>
-                        <Text style={{
-                            fontSize: 16,
-                            fontWeight: '400',
-                            marginVertical: 8,
-                            color: colors.text
-                        }}>Sabah</Text>
-                        <View style={{
-                            width: "100%",
-                            height: 48,
-                            borderColor: colors.text,
-                            borderWidth: 1,
-                            borderRadius: 8,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            paddingLeft: 15,
-                            flexDirection: 'row'
-                        }}>
-                            <TouchableOpacity onPress={() => setShowMoonTimePicker(true)}>
-                                <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
-                            </TouchableOpacity>
-                            <TextInput
-                                placeholder='Saati'
-                                placeholderTextColor={colors.text}
-                                keyboardType='number-pad'
-                                value={selectedMoonTime}
-                                style={{
-                                    flex: 1,
-                                    color: colors.text
-                                }}
-                            />
-                        </View>
-                    </View>
-
-                    {showMoonTimePicker && (
+       {showMoonTimePicker && (
                         <DateTimePicker
                             testID="dateTimePickerMoonTime"
                             value={time}
@@ -448,47 +452,55 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                             display="default"
                             onChange={onChangeMoonTime}
                         />
-                    )}
+                    )}             
 
-        <Text style={{color:colors.primary}}>Öğlen</Text>
-          <CheckBox
+        <Text style={{
+             fontSize: 16,
+             fontWeight: '400',
+             marginVertical: 8,
+             color: colors.text
+             }}>Öğlen</Text>                           
+      
+      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+      <View style={{
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.text,
+      padding: 5,
+      }}>
+      <CheckBox
         disabled={false}
         value={afternoon}
         onValueChange={(value) => setAfternoon(value)}
       />
-      <View style={{ marginBottom: 12 }}>
-                        <Text style={{
-                            fontSize: 16,
-                            fontWeight: '400',
-                            marginVertical: 8,
-                            color: colors.text
-                        }}>Öğleden Sonra Saati</Text>
-                        <View style={{
-                            width: "100%",
-                            height: 48,
-                            borderColor: colors.text,
-                            borderWidth: 1,
-                            borderRadius: 8,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            paddingLeft: 15,
-                            flexDirection: 'row'
-                        }}>
-                            <TouchableOpacity onPress={() => setShowAfternoonTimePicker(true)}>
-                                <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
-                            </TouchableOpacity>
-                            <TextInput
-                                placeholder='Saati'
-                                placeholderTextColor={colors.text}
-                                keyboardType='number-pad'
-                                value={selectedAfternoonTime}
-                                style={{
-                                    flex: 1,
-                                    color: colors.text
-                                }}
-                            />
-                        </View>
-                    </View>
+      </View>
+      <View style={{
+        marginLeft: 8,
+        width: "83%",
+        height: 48,
+        borderColor: colors.text,
+        borderWidth: 1,
+        borderRadius: 8,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingLeft: 15,
+        flexDirection: 'row'
+        }}>                  
+        <TouchableOpacity onPress={() => setShowAfternoonTimePicker(true)}>
+        <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
+        </TouchableOpacity>
+        <TextInput
+         placeholder='Saati'
+         placeholderTextColor={colors.text}
+         keyboardType='number-pad'
+         value={selectedAfternoonTime}
+          style={{
+            flex: 1,
+            color: colors.text
+                  }}                      
+                  />
+          </View>
+          </View>
 
                     {showAfternoonTimePicker && (
                         <DateTimePicker
@@ -501,21 +513,28 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                         />
                     )}
 
-        <Text style={{color:colors.primary}}>Akşam</Text>
-        <CheckBox
-        disabled={false}
-        value={evening}
-        onValueChange={(value) => setEvening(value)}
-      />
-      <View style={{ marginBottom: 12 }}>
-                        <Text style={{
-                            fontSize: 16,
-                            fontWeight: '400',
-                            marginVertical: 8,
-                            color: colors.text
-                        }}>Akşam Saati</Text>
+      <Text style={{
+          fontSize: 16,
+          fontWeight: '400',
+          marginVertical: 8,
+          color: colors.text
+           }}>Akşam</Text>              
+      <View style={{ flexDirection: 'row', alignItems: 'center',marginBottom: 12 }}>
+            <View style={{
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: colors.text,
+              padding: 5,
+              }}>
+            <CheckBox
+              disabled={false}
+              value={evening}
+              onValueChange={(value) => setEvening(value)}
+            />
+            </View>
                         <View style={{
-                            width: "100%",
+                            marginLeft: 8,
+                            width: "83%",
                             height: 48,
                             borderColor: colors.text,
                             borderWidth: 1,
@@ -552,48 +571,54 @@ const AddMedicinesDetail = ({ route, navigation }) => {
                         />
                     )}
      
+  
+    <Text style={{
+      fontSize: 16,
+      fontWeight: '400',
+      marginVertical: 8,
+      color: colors.text
+      }}>Gece</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center',marginBottom: 12 }}>
+       <View style={{
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: colors.text,
+        padding: 5,
+                }}>
       <CheckBox
         disabled={false}
         value={night}
-        onTintColor='#FF9900'
-        onCheckColor='#FF9900'
         onValueChange={(value) => setNight(value)}
       />
-      <Text style={{color:colors.primary}}>Gece</Text>
-
-       <View style={{ marginBottom: 12 }}>
-                        <Text style={{
-                            fontSize: 16,
-                            fontWeight: '400',
-                            marginVertical: 8,
-                            color: colors.text
-                        }}>Gece</Text>
-                        <View style={{
-                            width: "100%",
-                            height: 48,
-                            borderColor: colors.text,
-                            borderWidth: 1,
-                            borderRadius: 8,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            paddingLeft: 15,
-                            flexDirection: 'row'
-                        }}>
-                            <TouchableOpacity onPress={() => setShowNightTimePicker(true)}>
-                                <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
-                            </TouchableOpacity>
-                            <TextInput
-                                placeholder='Saati'
-                                placeholderTextColor={colors.text}
-                                keyboardType='number-pad'
-                                value={selectedNightTime}
-                                style={{
-                                    flex: 1,
-                                    color: colors.text
-                                }}
-                            />
-                        </View>
-                    </View>
+      </View>
+                        
+      <View style={{
+        marginLeft:8,
+        width: "83%",
+        height: 48,
+        borderColor: colors.text,
+        borderWidth: 1,
+        borderRadius: 8,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingLeft: 15,
+        flexDirection: 'row'
+        }}>                  
+        <TouchableOpacity onPress={() => setShowNightTimePicker(true)}>
+        <Icon name="clock-o" size={20} color="gray" style={{ marginRight: 10 }} />
+        </TouchableOpacity>
+        <TextInput
+        placeholder='Saati'
+        placeholderTextColor={colors.text}
+        keyboardType='number-pad'
+        value={selectedNightTime}
+        style={{
+        flex: 1,
+        color: colors.text
+         }}
+         />
+           </View>
+        </View>
 
                     {showNightTimePicker && (
                         <DateTimePicker
