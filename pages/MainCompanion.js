@@ -7,6 +7,7 @@ import Carousel from '../components/Carousel';
 import Header from '../components/Header';
 import FooterCompanion from '../components/FooterCompanion';
 import SentenceSlider from '../components/SentenceSlider';
+import TraceOfLoves from '../components/TraceOfLoves';
 
 const MainCompanion = ({ navigation }) => {
   const [userId, setUserId] = useState(null);
@@ -69,9 +70,7 @@ const MainCompanion = ({ navigation }) => {
       <Header />
       <Carousel/>
       <SentenceSlider/>
-      <Text style={{ color: colors.primary, bottom: 220, fontSize: 20, textAlign: 'center' }}>
-        Yaklaşan İlaçlar
-      </Text>
+      <TraceOfLoves/>
       <FooterCompanion />
     </View>
   );

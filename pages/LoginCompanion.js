@@ -34,7 +34,7 @@ const LoginCompanion = ({ navigation }) => {
       
       
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+        <SafeAreaView style={{ flex: 1,backgroundColor: colors.background }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={{ flex: 1, marginHorizontal: 22 }}>
                 <View style={{ marginVertical: 22 }}>

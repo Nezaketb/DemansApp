@@ -6,7 +6,6 @@ import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getMedicines } from '../api';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
 
 LocaleConfig.locales['tr'] = {
   monthNames: [
@@ -88,7 +87,6 @@ const Medicines = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-    <Header/>
       <Text style={styles.header}>İlaçlarım</Text>
       <Calendar
         style={styles.calendar}

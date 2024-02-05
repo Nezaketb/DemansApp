@@ -10,6 +10,7 @@ import Carousel from '../components/Carousel';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SentenceSlider from '../components/SentenceSlider';
+import TraceOfLoves from '../components/TraceOfLoves';
 
 const Main = ({ navigation }) => {
   const [userId, setUserId] = useState('');
@@ -106,9 +107,7 @@ const Main = ({ navigation }) => {
       <Text style={styles.header}>HOŞGELDİNİZ</Text>
       <Carousel />
       <SentenceSlider />
-      <Text style={{ color: colors.primary, bottom: 220, fontSize: 20, textAlign: 'center' }}>
-        Yaklaşan İlaçlarım
-      </Text>
+      <TraceOfLoves/>
       <Footer />
     </View>
   );
@@ -117,7 +116,7 @@ const Main = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 10,
     backgroundColor: 'white',
   },
   header: {

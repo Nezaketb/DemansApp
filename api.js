@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const apiBaseUrl = 'http://192.168.1.147:5023/api/'; 
+const apiBaseUrl = 'http://172.20.10.2:5023/api/'; 
 
 export const LoginUser = async (email, password) => {
   try {
@@ -54,7 +54,7 @@ export const RegisterUser = async (email,userName,surname,phone, password) => {
       },
     );
 
-    console.error('Kayıt başarılı:', response.data);
+    console.log('Kayıt başarılı:', response.data);
     return true;
   } catch (error) {
     console.error('Kayıt başarısız:', error.message);
@@ -177,6 +177,28 @@ export const getSentences = async () => {
   try {
     const response = await axios.get(`${apiBaseUrl}MotivationSentences/getAllSentences`);
     //console.log('API Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
+};
+
+export const getTraceOfLoves = async () => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}TraceOfLoves/getTraceOfLoves`);
+    console.log('API Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
+};
+
+export const get3TraceOfLoves = async () => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}TraceOfLoves/get3TraceOfLoves`);
+    console.log('API Response:', response.data);
     return response.data;
   } catch (error) {
     console.error('API Error:', error);

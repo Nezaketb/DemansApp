@@ -60,17 +60,13 @@ const SentenceSlider = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top:-70
+    marginBottom:-90
   },
   slide: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     width: Dimensions.get("window").width,
-    height: 200,
   },
   text: {
-    marginTop: 10,
     textAlign: 'center',
     fontWeight: '500',
     fontSize: 20,

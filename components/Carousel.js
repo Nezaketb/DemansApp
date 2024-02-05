@@ -15,7 +15,7 @@ const Carousel = () => {
   const fetchPictures = async () => {
     try {
       const picturesData = await getPictures(userId);
-      const baseUrl = "http://192.168.1.147:5023/uploads/"; 
+      const baseUrl = "http://172.20.10.2:5023/uploads/"; 
       const picturesWithFullUrl = picturesData.data.map((item) => ({
         ...item,
         url: baseUrl + item.url,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: Dimensions.get("window").width,
-    height: 300,
+    height: 270,
   },
   image: {
     width: '100%',
@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   text: {
-    marginTop: 10,
     textAlign:'center',
     fontWeight:'500',
     fontSize:20,
@@ -147,6 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop:1
   },
   indicator: {
     width: 10,

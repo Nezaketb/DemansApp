@@ -16,16 +16,9 @@ const Footer = () => {
     navigation.navigate('UserProfile');
   };
 
-  const navigateToLogin = () => {
-    navigation.navigate('Login');
-  };
 
   const navigateToMedicines = () => {
     navigation.navigate('Medicines');
-  };
-
-  const navigateToInviteInformation = () => {
-    navigation.navigate('AddMedicines');
   };
 
   return (
