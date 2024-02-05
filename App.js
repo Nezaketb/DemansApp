@@ -17,6 +17,7 @@ import WelcomeScreen from './pages/WelcomeScreen';
 import LoginCompanion  from './pages/LoginCompanion';
 import MainCompanion  from './pages/MainCompanion';
 import CompanionProfile from './pages/CompanionProfile';
+import TraceLoves from './pages/TraceLoves';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ function App() {
       <Stack.Screen name="LoginCompanion" component={LoginCompanion}/>
       <Stack.Screen name="UserProfile" component={UserProfile}/>
       <Stack.Screen name="CompanionProfile" component={CompanionProfile}/>
+      <Stack.Screen name="TraceLoves" component={TraceLoves}/>
       <Stack.Screen name="AddMedicinesDetail" component={AddMedicinesDetail}/>
       <Stack.Screen name="AddMedicines" component={AddMedicines}/>
       <Stack.Screen name="AddPictures" component={AddPictures}/>

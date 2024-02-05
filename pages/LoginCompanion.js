@@ -44,7 +44,7 @@ const LoginCompanion = ({ navigation }) => {
                         marginVertical: 12,
                         color: colors.text
                     }}>
-                        Giriş Yap
+                        Refakatçi Girişi
                     </Text>
                 </View>
 

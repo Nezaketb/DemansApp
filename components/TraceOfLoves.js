@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useTheme,useNavigation } from '@react-navigation/native';
 import { get3TraceOfLoves } from '../api';
 
 const TraceOfLoves = () => {
   const [loves, setLoves] = useState([]);
   const {colors}=useTheme();
+  const navigation = useNavigation();
+
+
   useEffect(() => {
     const fetchtraceOfLoves = async () => {
         try {
@@ -20,8 +23,12 @@ const TraceOfLoves = () => {
       fetchtraceOfLoves();
   }, []);
 
+  const handleContainerPress = () => {
+    navigation.navigate('TraceLoves');
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={handleContainerPress}>
       <Text style={{ color: colors.primary,fontSize: 20,padding:5, textAlign: 'center' }}>
         Sevgi İzi Noktaları
       </Text>
@@ -30,7 +37,7 @@ const TraceOfLoves = () => {
           <Text style={styles.kisiText}>{kisi.placeName}</Text>
         </TouchableOpacity>
       ))}
-    </View>
+    </TouchableOpacity>
   );
 };
 

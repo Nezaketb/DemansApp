@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native
 import { getAllUsers } from '../api';
 import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Header from '../components/Header';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../components/Footer';
 
 const CompanionProfile = ({ navigation }) => {
@@ -63,7 +63,7 @@ const CompanionProfile = ({ navigation }) => {
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('userId');
-      navigation.replace('Login'); 
+      navigation.replace('WelcomeScreen'); 
     } catch (error) {
       console.error('Logout error:', error.message);
     }
@@ -72,7 +72,6 @@ const CompanionProfile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Header />
       <Text style={styles.header}>Profil Bilgileri</Text>
       <View style={styles.profileContainer}>
         <FlatList
@@ -90,6 +89,7 @@ const CompanionProfile = ({ navigation }) => {
           )}
         />
         <TouchableOpacity onPress={handleLogout} style={styles.outContainer}>
+        <Icon name='sign-out' size={18} color={colors.primary}  style={{ marginLeft: 110,marginTop:10}}></Icon>
         <Text style={styles.out}>ÇIKIŞ YAP</Text>
       </TouchableOpacity>
       </View>
@@ -107,7 +107,7 @@ const CompanionProfile = ({ navigation }) => {
   const styles = StyleSheet.create({
     profileContainer: {
       flex: 1,
-      backgroundColor: '#FF7F00',
+      backgroundColor: 'white',
       borderTopRightRadius: 10,
       borderTopLeftRadius: 10,
       overflow: 'hidden',
@@ -129,24 +129,24 @@ const CompanionProfile = ({ navigation }) => {
       borderRadius: 10,
       margin:10,
       marginBottom:0,
-      backgroundColor:'white',
+      backgroundColor:'#a9a9a9',
       borderWidth: 1,
-      borderColor: '#e0e0e0', // Açık gri çizgi rengi
+      borderColor: '#a9a9a9', // Açık gri çizgi rengi
     },
     out:{
         textAlign: 'center',
         margin:10,
-        color:'black'
+        color:'#f07c56'
     },
     outContainer: {
-        textAlign: 'center',
+      flexDirection:'row',
         height:50,
         borderRadius: 10,
         margin:10,
         marginBottom:200,
         backgroundColor:'white',
         borderWidth: 1,
-        borderColor: '#e0e0e0', // Açık gri çizgi rengi
+        borderColor: '#f0f0f0', 
       },
     infoRow: {
       flexDirection: 'row',
