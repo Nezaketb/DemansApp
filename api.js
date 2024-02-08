@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const apiBaseUrl = 'http://172.20.10.2:5023/api/'; 
+const apiBaseUrl = 'http://192.168.1.20:5023/api/'; 
 
 export const LoginUser = async (email, password) => {
   try {
@@ -225,6 +225,17 @@ export const getMedicines = async (userId) => {
     return response.data;
   } catch (error) {
     console.error('Get medicines error:', error.message);
+    throw error;
+  }
+};
+
+export const getCompanionById = async (userId) => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}Companions/getCompanion/${userId}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Get companion error:', error.message);
     throw error;
   }
 };

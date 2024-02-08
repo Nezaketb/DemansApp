@@ -23,7 +23,7 @@ const Register = ({ navigation }) => {
           const success = await RegisterUser(email, userName, surname, password,phone);
     
           if (success) {
-          navigation.navigate('AddCompanion');
+          navigation.navigate('Login');
           } else {
           }
         } catch (error) {

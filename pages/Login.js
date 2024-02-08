@@ -5,7 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LoginUser } from '../api';
+import { LoginUser,getCompanionById } from '../api';
 
 const Login = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -24,7 +24,21 @@ const Login = ({ navigation }) => {
       
             await AsyncStorage.setItem('userId', JSON.stringify(response.userId ));
       
-            navigation.navigate('AddCompanion');
+            const companion = await getCompanionById(response.userId);
+
+            if (companion) {
+                console.log("Kullanıcıya ait companion bilgileri:", companion);
+                navigation.navigate('Main');
+                if (companion.data.length === 0) {
+                  console.log("Kullanıcının companion bilgisi bulunamadı.");
+                  navigation.navigate('AddCompanion');
+                } else {
+                  console.log('nothing');
+                }
+              } else {
+                console.log("Kullanıcının companion bilgisi bulunamadı.");
+                // İlerleyen işlemler...
+              }
           } else {
             console.log("Giriş başarısız. Yanıtta beklenen bilgiler bulunamadı.");
           }
