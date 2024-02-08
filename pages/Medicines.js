@@ -4,7 +4,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getMedicines } from '../api';
+import { getMedicines ,medicineControl} from '../api';
 import Footer from '../components/Footer';
 import notifee from '@notifee/react-native';
 
@@ -36,12 +36,11 @@ const Medicines = ({ navigation }) => {
   const { colors } = useTheme();
   const [selectedDay, setSelectedDay] = useState('');
   const [selectedDayMedicines, setSelectedDayMedicines] = useState([]);
-
   const sendNotification = async () => {
     try {
       await notifee.displayNotification({
-        title: 'Başlık',
-        body: 'Bildirim içeriği',
+        title: 'İlaç Hatırlatması',
+        body: 'İlacınızı içmeyi unutmayın',
         android: {
           channelId: 'default', 
         },
@@ -54,32 +53,43 @@ const Medicines = ({ navigation }) => {
 
   const handleDayPress = (day) => {
     setSelectedDay(day.dateString);
-    console.log(day.dateString);
-  
     const currentDate = new Date(day.dateString);
     currentDate.setDate(currentDate.getDate());
   
     const dayMedicines = medicines.filter(medicine => {
       const startDate = new Date(medicine.startDate);
-      const endDate = new Date(medicine.endDate);
-      
+      const endDate = new Date(medicine.endDate);      
       return currentDate >= startDate && currentDate <= endDate;
     });
-  
     setSelectedDayMedicines(dayMedicines);
   };
   
   const fetchMedicines = async () => {
     try {
       const medicinesData = await getMedicines(userId);
-      const medicines=medicinesData.data;
+      const medicines = medicinesData.data;
       setMedicines(medicines);
-      // scheduleNotifications(medicines);
     } catch (error) {
       console.error('Get medicines error:', error.message);
     }
   };
 
+  const fetchApi = async () => {
+    try {
+      const medicinesData = await medicineControl(userId);
+      const medicines = medicinesData.data;
+      // console.log(medicines.status)
+      if(medicinesData.data.status==true)
+      {
+        sendNotification();
+      }
+      setMedicines(medicines);
+    } catch (error) {
+      console.error('Get medicines control error:', error.message);
+    }
+  };
+
+  
 
   useEffect(() => {
     const loadUserId = async () => {
@@ -96,15 +106,18 @@ const Medicines = ({ navigation }) => {
     loadUserId();
   }, []);
 
+  
   useEffect(() => {
+    const intervalId = setInterval(fetchApi, 40000); // Her 1 dakikada bir fetchMedicines fonksiyonunu çağırır.
+    return () => clearInterval(intervalId); // Temizleme işlevi
+  }, [userId]);
+  
+  useEffect(() => {5
     if (userId) {
       fetchMedicines();
     }
   }, [userId]);
 
-  useEffect(() => {
-   sendNotification();
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -117,31 +130,30 @@ const Medicines = ({ navigation }) => {
         onDayPress={handleDayPress}
       />
       <ScrollView>
-     <View style={styles.medicinesList}>
-  {selectedDayMedicines.map((item, index) => (
-    <View key={index} style={styles.medicineItem}>
-    <View style={{ alignItems: 'center', justifyContent: 'center', marginRight: 10 }}>
-      <>
-        <Icon name="medkit" size={20} color={colors.primary} />
-        <Text style={{ color: colors.text, marginLeft: 5, fontWeight: '500', fontSize: 20 }}>{item.name}</Text>
-      </>
-    </View>
-      <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-        <Text style={{ color: colors.primary, marginLeft: 5, fontWeight: 'bold' }}>Sabah: <Text style={{ fontWeight: 'normal', color: colors.text }}>{item.moonTime}</Text></Text>
-        <Text style={{ color: colors.primary, marginLeft: 5, fontWeight: 'bold' }}>Öğle: <Text style={{ fontWeight: 'normal', color: colors.text }}>{item.afternoonTime}</Text></Text>
-        <Text style={{ color: colors.primary, marginLeft: 5, fontWeight: 'bold' }}>Akşam: <Text style={{ fontWeight: 'normal', color: colors.text }}>{item.eveningTime}</Text></Text>
-        <Text style={{ color: colors.primary, marginLeft: 5, fontWeight: 'bold' }}>Gece: <Text style={{ fontWeight: 'normal', color: colors.text }}>{item.nightTime}</Text></Text>
-      </View>
-    </View>
-  ))}
-</View>
-<View style={{padding:25}}></View>
-</ScrollView>
+        <View style={styles.medicinesList}>
+          {selectedDayMedicines.map((item, index) => (
+            <View key={index} style={styles.medicineItem}>
+              <View style={{ alignItems: 'center', justifyContent: 'center', marginRight: 10 }}>
+                <>
+                  <Icon name="medkit" size={20} color={colors.primary} />
+                  <Text style={{ color: colors.text, marginLeft: 5, fontWeight: '500', fontSize: 20 }}>{item.name}</Text>
+                </>
+              </View>
+              <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                <Text style={{ color: colors.primary, marginLeft: 5, fontWeight: 'bold' }}>Sabah: <Text style={{ fontWeight: 'normal', color: colors.text }}>{item.moonTime}</Text></Text>
+                <Text style={{ color: colors.primary, marginLeft: 5, fontWeight: 'bold' }}>Öğle: <Text style={{ fontWeight: 'normal', color: colors.text }}>{item.afternoonTime}</Text></Text>
+                <Text style={{ color: colors.primary, marginLeft: 5, fontWeight: 'bold' }}>Akşam: <Text style={{ fontWeight: 'normal', color: colors.text }}>{item.eveningTime}</Text></Text>
+                <Text style={{ color: colors.primary, marginLeft: 5, fontWeight: 'bold' }}>Gece: <Text style={{ fontWeight: 'normal', color: colors.text }}>{item.nightTime}</Text></Text>
+              </View>
+            </View>
+          ))}
+        </View>
+        <View style={{padding:25}}></View>
+      </ScrollView>
       <Footer />
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -169,12 +181,6 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     padding:5,
     marginBottom: 15,
-  },
-  detailsLink: {
-    color: 'blue',
-    textDecorationLine: 'underline',
-    textAlign: 'center',
-    marginTop: 16,
   },
 });
 

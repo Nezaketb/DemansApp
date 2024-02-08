@@ -173,6 +173,16 @@ export const addMedicines = async ( name,  usageDuration, usagePurpose,startDate
   }
 };
 
+export const medicineControl = async (userId) => {
+  try {
+    const response = await axios.post(`${apiBaseUrl}Medicines/medicineControl/${userId}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Get medicines error:', error.message);
+    throw error;
+  }
+};
 export const getSentences = async () => {
   try {
     const response = await axios.get(`${apiBaseUrl}MotivationSentences/getAllSentences`);
