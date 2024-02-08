@@ -15,7 +15,7 @@ const Carousel = () => {
   const fetchPictures = async () => {
     try {
       const picturesData = await getPictures(userId);
-      const baseUrl = "http://192.168.1.20:5023/uploads/"; 
+      const baseUrl = "http://172.20.10.2:5023/uploads/"; 
       const picturesWithFullUrl = picturesData.data.map((item) => ({
         ...item,
         url: baseUrl + item.url,

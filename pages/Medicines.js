@@ -74,83 +74,10 @@ const Medicines = ({ navigation }) => {
       const medicinesData = await getMedicines(userId);
       const medicines=medicinesData.data;
       setMedicines(medicines);
-      scheduleNotifications(medicines);
+      // scheduleNotifications(medicines);
     } catch (error) {
       console.error('Get medicines error:', error.message);
     }
-  };
-
-  const scheduleNotifications = (medicines) => {
-    console.log('Bildirimler planlanıyor...');
-  
-    // Tüm ilaçların kullanılması gereken saatleri bir diziye topla
-    const notificationTimes = [];
-  
-    medicines.forEach(medicine => {
-      const { startDate, endDate, afternoonTime, eveningTime, nightTime, moonTime, name } = medicine;
-      const startDateTime = new Date(startDate);
-      const endDateTime = new Date(endDate);
-  
-      for (let time = new Date(startDateTime); time <= endDateTime; time.setDate(time.getDate() + 1)) {
-        // İlaç için kullanılacak günün gününü al
-        const dayOfWeek = time.getDay();
-  
-        // İlaç için uygun olan saat dilimini belirle
-        let notificationTime;
-  
-        switch (dayOfWeek) {
-          case 0: // Pazar
-            notificationTime = moonTime;
-            break;
-          case 1: // Pazartesi
-          case 2: // Salı
-          case 3: // Çarşamba
-            notificationTime = afternoonTime;
-            break;
-          case 4: // Perşembe
-            notificationTime = eveningTime;
-            break;
-          case 5: // Cuma
-            notificationTime = nightTime;
-            break;
-          case 6: // Cumartesi
-            notificationTime = moonTime;
-            break;
-          default:
-            break;
-        }
-  
-        // Bildirim saati için zamanı ayarla ve diziye ekle
-        const [hours, minutes] = notificationTime.split(':');
-        const notificationDateTime = new Date(time);
-        notificationDateTime.setHours(parseInt(hours));
-        notificationDateTime.setMinutes(parseInt(minutes));
-        notificationTimes.push({ dateTime: notificationDateTime, name });
-      }
-    });
-  
-    // Toplanan bildirim zamanları üzerinde döngü yaparak bildirimleri planla
-    notificationTimes.forEach(({ dateTime, name }) => {
-      console.log('Planlanan Bildirim Zamanı:', dateTime);
-      scheduleNotification(dateTime, name); // 'name' değişkenini burada tanımlamanız gerekebilir
-    });
-  };
-  
-  
-
-  const scheduleNotification = (notificationTime, medicineName) => {
-    console.log(medicineName);
-    notifee.displayNotification({
-      title: 'İlaç Kullanma Zamanı!',
-      body: `${medicineName} ilacınızı kullanma zamanı geldi.`,
-      android: {
-        channelId: 'default',
-      },
-      schedule: {
-        at: notificationTime.getTime(),
-      },
-    });
-    console.log('Bildirim gönderildi:', medicineName);
   };
 
 
