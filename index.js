@@ -33,9 +33,7 @@ const MyHeadlessTask = async (event) => {
       const currentHour = new Date().getHours();
       const currentMinute = new Date().getMinutes();
   
-      // Bildirim gönderme zamanını kontrol edin (Örneğin, 08:00'de)
       if (currentHour === 2 && currentMinute === 35) {
-        // Bildirim oluşturun ve gönderin
         notifee.displayNotification({
           title: 'İlaç Zamanı!',
           body: 'İlacınızı almayı unutmayın!',
@@ -47,7 +45,7 @@ const MyHeadlessTask = async (event) => {
           },
         });
       }
-    }, Platform.OS === 'ios' ? 60000 : 10000); // iOS'ta her dakika, Android'de her 10 saniyede bir kontrol edilir.
+    }, Platform.OS === 'ios' ? 60000 : 10000); 
   };
 
   BackgroundFetch.configure({
