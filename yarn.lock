@@ -6384,11 +6384,6 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
-"react-native-background-fetch@^4.2.2":
-  "integrity" "sha512-7ORHtzV4s7OmekbteJt3ipaYq6Qw5RsfjvAf2ac9a47fa0UeNbOaLkwQHrrJq1fnINpVe1L1B0K5OIICZBAziw=="
-  "resolved" "https://registry.npmjs.org/react-native-background-fetch/-/react-native-background-fetch-4.2.2.tgz"
-  "version" "4.2.2"
-
 "react-native-calendars@^1.1303.0":
   "integrity" "sha512-afR9D+EbJQe/YnlXRly/4pqkM7iXSziaKUZz1EoKWk3R0D+sela5LknziXIiM1XFDCpYk5ZJ3cjnTed0MjxVKg=="
   "resolved" "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1303.0.tgz"

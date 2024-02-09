@@ -4,7 +4,7 @@ import { useTheme } from '@react-navigation/native';
 import { PermissionsAndroid, Platform } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import notifee from '@notifee/react-native';
 import { addLocation } from '../api';
 import Carousel from '../components/Carousel';
 import Header from '../components/Header';
@@ -40,6 +40,22 @@ const Main = ({ navigation }) => {
       } catch (err) {
         console.warn(err);
       }
+    }
+  };
+
+  
+  const sendNotification = async () => {
+    try {
+      await notifee.displayNotification({
+        title: 'Başlık',
+        body: 'Bildirim içeriği',
+        android: {
+          channelId: 'default', 
+        },
+      });
+      console.log('Bildirim gönderildi.');
+    } catch (error) {
+      console.error('Bildirim gönderme hatası:', error);
     }
   };
 
@@ -99,6 +115,7 @@ const Main = ({ navigation }) => {
 
   useEffect(() => {
     requestLocationPermission();
+    sendNotification();
   }, []);
 
   return (

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, PermissionsAndroid, Platform, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView,PermissionsAndroid,Platform,Button } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getMedicines, medicineControl } from '../api';
+import { getMedicines ,medicineControl} from '../api';
 import Footer from '../components/Footer';
 import notifee from '@notifee/react-native';
 
@@ -38,28 +38,29 @@ const Medicines = ({ navigation }) => {
   const [selectedDayMedicines, setSelectedDayMedicines] = useState([]);
 
   const ondisplayNotification = async () => {
-    try {
-      await notifee.createChannel({
-        id: "general",
-        name: "General",
-      });
-      await notifee.displayNotification({
-        title: "hello",
-        body: "world"
-      });
-      console.log("Bildirim");
-    } catch (error) {
-      console.log("BİLDİRİM HATASI", error);
-    }
-  };
-
+  try{
+    await notifee.createChannel({
+      id:"general",
+      name:"General",
+    });
+    await notifee.displayNotification({
+      title:"hello",
+      body:"world"
+    });
+    console.log("Bildirim")
+  }
+  catch
+  {
+    console.log("bİLDİRİM HATASI");
+  }
+  }
   const sendNotification = async () => {
     try {
       await notifee.displayNotification({
         title: 'Başlık',
         body: 'Bildirim içeriği',
         android: {
-          channelId: 'general', 
+          channelId: 'default', 
         },
       });
       console.log('Bildirim gönderildi.');
@@ -96,7 +97,7 @@ const Medicines = ({ navigation }) => {
       const medicinesData = await medicineControl(userId);
       const medicines = medicinesData.data;
       console.log(medicines.status);
-      if (medicinesData.data.status === false) {
+      if (medicinesData.data.status == false) {
         sendNotification();
       }
       setMedicines(medicines);
@@ -122,8 +123,8 @@ const Medicines = ({ navigation }) => {
 
   useEffect(() => {
     sendNotification();
-  }, []);
-
+   }, []);
+   
   useEffect(() => {
     const intervalId = setInterval(fetchApi, 40000);
     return () => clearInterval(intervalId);
@@ -135,23 +136,24 @@ const Medicines = ({ navigation }) => {
     }
   }, [userId]);
 
+
   return (
     <View style={styles.container}>
-      <Button
-        title="Refakatçi Ekle"
-        loading={false}
-        onPress={ondisplayNotification}
-        buttonStyle={{
-          backgroundColor: colors.primary,
-          borderRadius: 10,
-        }}
-        titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-        containerStyle={{
-          height: 50,
-          marginHorizontal: 10,
-          marginTop: 10,
-        }}
-      />
+     <Button
+                  title="Refakatçi Ekle"
+                  loading={false}
+                  onPress={ondisplayNotification}
+                    buttonStyle={{
+                    backgroundColor: colors.primary,
+                    borderRadius: 10,
+                  }}
+                  titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
+                  containerStyle={{
+                    height: 50,
+                    marginHorizontal: 10,
+                    marginTop: 10,
+                  }}
+                />
       <Text style={styles.header}>İlaçlarım</Text>
       <Calendar
         style={styles.calendar}
@@ -179,7 +181,7 @@ const Medicines = ({ navigation }) => {
             </View>
           ))}
         </View>
-        <View style={{ padding: 25 }}></View>
+        <View style={{padding:25}}></View>
       </ScrollView>
       <Footer />
     </View>
@@ -208,9 +210,9 @@ const styles = StyleSheet.create({
   },
   medicineItem: {
     flexDirection: 'row',
-    borderRadius: 20,
-    backgroundColor: 'white',
-    padding: 5,
+    borderRadius:20,
+    backgroundColor:'white',
+    padding:5,
     marginBottom: 15,
   },
 });
